@@ -25,7 +25,7 @@ export default function Header(props) {
                 <Text style={styles.greetingText}>{greeting}, {"\n"+props.name}</Text>
                 <View> 
                     <Text style={styles.valueText}>${props.value}</Text>
-                    <Text style={[styles.percentText, {color: percentColor}]}>{props.percent}%</Text>
+                    <Text style={[styles.percentText, {color: percentColor}]}>{(props.percent>0? "+":"") + props.percent}%</Text>
                 </View>
             </View>
         </View>

@@ -6,7 +6,7 @@ export default function Home() {
         <View style={styles.background}>
             <SafeAreaView>
                 <ScrollView>
-                    <Header name="BWH" value={100000} percent={-100}/>
+                    <Header name="BWH" value={100000} percent={100}/>
                 </ScrollView>
             </SafeAreaView>
         </View>
