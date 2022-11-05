@@ -1,18 +1,31 @@
 import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native'
-import React from 'react'
+import React, {useState} from 'react'
 import { useNavigation } from '@react-navigation/native'
 
 export default function Login() {
     const navigation = useNavigation();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
             <View style={styles.wrapper}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <SafeAreaView style={styles.wrapper} >
                         <Text style={styles.logoText}>bwh.</Text>
-                        <TextInput placeholder='username' style={[styles.input, { marginBottom: 10}]}></TextInput>
-                        <TextInput placeholder='password' style={styles.input}></TextInput>
-                        <TouchableOpacity onPress={() => {navigation.replace("Home")}} style={[styles.button, { marginTop: 30 }]}>
+                        <TextInput
+                            placeholder='username'
+                            onChangeText={text => setUsername(text)}
+                            style={[styles.input, { marginBottom: 10 }]} 
+                        />
+                        <TextInput
+                            placeholder='password'
+                            onChangeText={text => setPassword(text)}
+                            style={styles.input} 
+                            secureTextEntry
+                        />
+
+                        <TouchableOpacity onPress={() => { navigation.replace("Home") }} style={[styles.button, { marginTop: 30 }]}>
                             <Text style={styles.buttonText}>Log in</Text>
                         </TouchableOpacity>
                     </SafeAreaView>
