@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, {useState} from 'react'
 
 let hours = new Date().getHours();
 
 export default function Header(props) {
+    const [count, setCount] = useState(0);
+
     let greeting = "Good Morning";
     if (hours >= 11 && hours <= 16) {
         greeting = "Good Afternoon";
@@ -28,6 +30,10 @@ export default function Header(props) {
                     <Text style={[styles.percentText, {color: percentColor}]}>{(props.percent>0? "+":"") + props.percent}%</Text>
                 </View>
             </View>
+            <Text>{count}</Text>
+            <TouchableOpacity onPress={() => {handleClick()}}>
+                <Text>count  incremenet</Text>
+            </TouchableOpacity>
         </View>
     )
 }
