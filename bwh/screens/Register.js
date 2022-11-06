@@ -4,13 +4,18 @@ import { useNavigation } from '@react-navigation/native'
 
 export default function Register() {
     const navigation = useNavigation();
+    
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [birthday, setBirthday] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [birthday, setBirthday] = useState("");
 
+    const [firstNameBorder, setFirstNameBorder] = useState(false);
+    const [lastNameBorder, setLastNameBorder] = useState(false);
+    const [birthdayBorder, setBirthdayBorder] = useState(false);
     const [passwordBorder, setPasswordBorder] = useState(false);
     const [emailBorder, setEmailBorder] = useState(false);
-    const [birthdayBorder, setBirthdayBorder] = useState(false);
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
@@ -22,12 +27,21 @@ export default function Register() {
                         </View>
 
                         <View style={styles.middle}>
+
                             <TextInput
-                                placeholder='email'
-                                onChangeText={text => setEmail(text)}
-                                onFocus={() => { setEmailBorder("#00284D") }}
-                                onBlur={() => { setEmailBorder("#D8D8D8") }}
-                                style={[styles.input, { borderColor: emailBorder }]}
+                                placeholder='First Name'
+                                onChangeText={text => setFirstName(text)}
+                                onFocus={() => { setFirstNameBorder("#00284D") }}
+                                onBlur={() => { setFirstNameBorder("#D8D8D8") }}
+                                style={[styles.input, { borderColor: firstNameBorder }]}
+                            />
+
+                            <TextInput
+                                placeholder='Last Name'
+                                onChangeText={text => setLastName(text)}
+                                onFocus={() => { setLastNameBorder("#00284D") }}
+                                onBlur={() => { setLastNameBorder("#D8D8D8") }}
+                                style={[styles.input, { borderColor: lastNameBorder }]}
                             />
 
                             <TextInput
@@ -35,7 +49,15 @@ export default function Register() {
                                 onChangeText={text => setBirthday(text)}
                                 onFocus={() => { setBirthdayBorder("#00284D") }}
                                 onBlur={() => { setBirthdayBorder("#D8D8D8") }}
-                                style={[styles.input, {borderColor: birthdayBorder }]}
+                                style={[styles.input, { borderColor: birthdayBorder }]}
+                            />
+
+                            <TextInput
+                                placeholder='email'
+                                onChangeText={text => setEmail(text)}
+                                onFocus={() => { setEmailBorder("#00284D") }}
+                                onBlur={() => { setEmailBorder("#D8D8D8") }}
+                                style={[styles.input, { borderColor: emailBorder }]}
                             />
 
                             <TextInput
