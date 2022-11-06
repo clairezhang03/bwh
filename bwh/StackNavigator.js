@@ -13,7 +13,7 @@ export default function StackNavigator() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Register" component={Home} />
+            <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="StockInfo" component={StockInfo}/>
         </Stack.Navigator>
 

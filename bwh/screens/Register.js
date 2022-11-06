@@ -31,20 +31,20 @@ export default function Register() {
                             />
 
                             <TextInput
+                                placeholder='birthday (MM/DD/YYYY)'
+                                onChangeText={text => setBirthday(text)}
+                                onFocus={() => { setBirthdayBorder("#00284D") }}
+                                onBlur={() => { setBirthdayBorder("#D8D8D8") }}
+                                style={[styles.input, {borderColor: birthdayBorder }]}
+                            />
+
+                            <TextInput
                                 placeholder='password'
                                 onChangeText={text => setPassword(text)}
                                 onFocus={() => { setPasswordBorder("#00284D") }}
                                 onBlur={() => { setPasswordBorder("#D8D8D8") }}
                                 style={[styles.input, { borderColor: passwordBorder }]}
                                 secureTextEntry
-                            />
-
-                            <TextInput
-                                placeholder='username'
-                                onChangeText={text => setUsername(text)}
-                                onFocus={() => { setUsernameBorder("#00284D") }}
-                                onBlur={() => { setUsernameBorder("#D8D8D8") }}
-                                style={[styles.input, { marginBottom: 10, borderColor: usernameBorder }]}
                             />
 
                             <TouchableOpacity onPress={() => { navigation.replace("Home") }} style={[styles.registerButton, { marginTop: 30 }]}>
@@ -67,7 +67,7 @@ export default function Register() {
 
 const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: "#286094",
+        backgroundColor: "#00284D",
         flex: 1,
         display: "flex",
         justifyContent: "space-between",
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
 
     input: {
         backgroundColor: "white",
+        marginBottom: 10,
         padding: 18,
         borderRadius: 18,
         borderWidth: 1,
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     },
 
     registerButtonText: {
-        color: "##286094",
+        color: "#00284D",
         textAlign: "center",
         fontSize: 18,
     },
