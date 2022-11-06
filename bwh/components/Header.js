@@ -4,7 +4,6 @@ import React, {useState} from 'react'
 let hours = new Date().getHours();
 
 export default function Header(props) {
-    const [count, setCount] = useState(0);
 
     let greeting = "Good Morning";
     if (hours >= 11 && hours <= 16) {
@@ -17,7 +16,7 @@ export default function Header(props) {
 
     let percentColor = "#D00000";
     if (props.percent > 0) {
-        percentColor = "#BDFBB3";
+        percentColor = "#06A77D";
     }
 
     return (
@@ -30,10 +29,6 @@ export default function Header(props) {
                     <Text style={[styles.percentText, {color: percentColor}]}>{(props.percent>0? "+":"") + props.percent}%</Text>
                 </View>
             </View>
-            <Text>{count}</Text>
-            <TouchableOpacity onPress={() => {handleClick()}}>
-                <Text>count  incremenet</Text>
-            </TouchableOpacity>
         </View>
     )
 }
