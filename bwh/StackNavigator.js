@@ -16,7 +16,7 @@ export default function StackNavigator() {
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="StockInfo" component={StockInfo}/>
         </Stack.Navigator>
-
+        
     )
 }
 
