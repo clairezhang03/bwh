@@ -16,7 +16,7 @@ export default function Card(props) {
         <View>
             <TouchableOpacity 
             style={[styles.button, {backgroundColor: buttonColor}]}
-            onPress={() => { navigation.navigate("StockInfo") }}
+            onPress={() => { navigation.navigate("StockInfo", {tickerSymbol: props.tickerSymbol, name: props.name, stockPrice: props.stockPrice, percentChange: props.percentChange}) }}
             >
                 <View style={styles.textFormat}>
                     <View>

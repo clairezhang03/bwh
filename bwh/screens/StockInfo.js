@@ -1,15 +1,17 @@
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { useRoute } from '@react-navigation/native'
 
 export default function StockInfo() {
+    const routes = useRoute();
     return (
         <View style={styles.background}>
             <SafeAreaView>
                 <View style={styles.topFormat}>
-                    <Text style={styles.tickerText}>StockInfo</Text>
+                    <Text style={styles.tickerText}>{routes.params.tickerSymbol}</Text>
                     <View>
-                        <Text style={styles.priceText}>$100</Text>
-                        <Text style={styles.percentText}>100%</Text>
+                        <Text style={styles.priceText}>${routes.params.stockPrice}</Text>
+                        <Text style={styles.percentText}>{routes.params.percentChange}%</Text>
                     </View>
                 </View>
             </SafeAreaView>
