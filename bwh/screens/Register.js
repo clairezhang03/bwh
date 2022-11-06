@@ -7,7 +7,7 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [birthday, setBirthday] = useState("");
-   
+
     const [passwordBorder, setPasswordBorder] = useState(false);
     const [emailBorder, setEmailBorder] = useState(false);
     const [birthdayBorder, setBirthdayBorder] = useState(false);
@@ -21,7 +21,7 @@ export default function Register() {
                             <Text style={styles.logoText}>bwh.</Text>
                         </View>
 
-                        <View style={styles.middle}>                           
+                        <View style={styles.middle}>
                             <TextInput
                                 placeholder='email'
                                 onChangeText={text => setEmail(text)}
@@ -39,7 +39,7 @@ export default function Register() {
                                 secureTextEntry
                             />
 
-<TextInput
+                            <TextInput
                                 placeholder='username'
                                 onChangeText={text => setUsername(text)}
                                 onFocus={() => { setUsernameBorder("#00284D") }}
