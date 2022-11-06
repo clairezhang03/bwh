@@ -2,12 +2,15 @@ import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView, 
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
-export default function Login() {
+export default function Register() {
     const navigation = useNavigation();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [emailBorder, setEmailBorder] = useState(false);
+    const [birthday, setBirthday] = useState("");
+   
     const [passwordBorder, setPasswordBorder] = useState(false);
+    const [emailBorder, setEmailBorder] = useState(false);
+    const [birthdayBorder, setBirthdayBorder] = useState(false);
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
@@ -18,14 +21,15 @@ export default function Login() {
                             <Text style={styles.logoText}>bwh.</Text>
                         </View>
 
-                        <View style={styles.middle}>
+                        <View style={styles.middle}>                           
                             <TextInput
                                 placeholder='email'
                                 onChangeText={text => setEmail(text)}
                                 onFocus={() => { setEmailBorder("#00284D") }}
                                 onBlur={() => { setEmailBorder("#D8D8D8") }}
-                                style={[styles.input, { marginBottom: 10, borderColor: emailBorder }]}
+                                style={[styles.input, { borderColor: emailBorder }]}
                             />
+
                             <TextInput
                                 placeholder='password'
                                 onChangeText={text => setPassword(text)}
@@ -35,16 +39,22 @@ export default function Login() {
                                 secureTextEntry
                             />
 
-                            <TouchableOpacity onPress={() => { navigation.replace("Home") }} style={[styles.button, { marginTop: 30 }]}>
-                                <Text style={styles.buttonText}>Log in</Text>
-                            </TouchableOpacity>
+<TextInput
+                                placeholder='username'
+                                onChangeText={text => setUsername(text)}
+                                onFocus={() => { setUsernameBorder("#00284D") }}
+                                onBlur={() => { setUsernameBorder("#D8D8D8") }}
+                                style={[styles.input, { marginBottom: 10, borderColor: usernameBorder }]}
+                            />
 
+                            <TouchableOpacity onPress={() => { navigation.replace("Home") }} style={[styles.registerButton, { marginTop: 30 }]}>
+                                <Text style={styles.registerButtonText}>register</Text>
+                            </TouchableOpacity>
                         </View>
 
                         <View style={styles.register}>
-                            <Text style={styles.registerText}>new here? </Text>
-                            <TouchableOpacity onPress={() => { navigation.replace("Register") }}>
-                                <Text style={[styles.registerText, { textDecorationLine: "underline" }]}>register</Text>
+                            <TouchableOpacity onPress={() => { navigation.replace("Login") }}>
+                                <Text style={[styles.registerText, { textDecorationLine: "underline" }]}>back to login</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -57,7 +67,7 @@ export default function Login() {
 
 const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: "#FDF1D2",
+        backgroundColor: "#286094",
         flex: 1,
         display: "flex",
         justifyContent: "space-between",
@@ -70,7 +80,7 @@ const styles = StyleSheet.create({
         fontStyle: "italic",
         fontWeight: "bold",
         textAlign: "center",
-        color: "#00284D",
+        color: "#FFECBC",
         marginBottom: 20,
         paddingTop: 20,
     },
@@ -82,14 +92,14 @@ const styles = StyleSheet.create({
         borderWidth: 1,
     },
 
-    button: {
+    registerButton: {
         padding: 20,
-        backgroundColor: "#00284D",
+        backgroundColor: "#FFECBC",
         borderRadius: 18,
     },
 
-    buttonText: {
-        color: "#FDF1D2",
+    registerButtonText: {
+        color: "##286094",
         textAlign: "center",
         fontSize: 18,
     },
