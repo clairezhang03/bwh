@@ -11,11 +11,11 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const [firstNameBorder, setFirstNameBorder] = useState(false);
-    const [lastNameBorder, setLastNameBorder] = useState(false);
-    const [birthdayBorder, setBirthdayBorder] = useState(false);
-    const [passwordBorder, setPasswordBorder] = useState(false);
-    const [emailBorder, setEmailBorder] = useState(false);
+    const [firstNameBorder, setFirstNameBorder] = useState("#D8D8D8");
+    const [lastNameBorder, setLastNameBorder] = useState("#D8D8D8");
+    const [birthdayBorder, setBirthdayBorder] = useState("#D8D8D8");
+    const [emailBorder, setEmailBorder] = useState("#D8D8D8");
+    const [passwordBorder, setPasswordBorder] = useState("#D8D8D8");
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>

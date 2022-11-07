@@ -6,8 +6,8 @@ export default function Login() {
     const navigation = useNavigation();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [emailBorder, setEmailBorder] = useState(false);
-    const [passwordBorder, setPasswordBorder] = useState(false);
+    const [emailBorder, setEmailBorder] = useState("#D8D8D8");
+    const [passwordBorder, setPasswordBorder] = useState("#D8D8D8");
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
