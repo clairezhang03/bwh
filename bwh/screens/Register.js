@@ -1,10 +1,14 @@
 import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
+import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
+import { auth, db } from '../core/config'
+import { doc, setDoc } from "firebase/firestore";
 
+//DO DATE PICKER
 export default function Register() {
     const navigation = useNavigation();
-    
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [birthday, setBirthday] = useState("");
@@ -17,7 +21,41 @@ export default function Register() {
     const [emailBorder, setEmailBorder] = useState("#D8D8D8");
     const [passwordBorder, setPasswordBorder] = useState("#D8D8D8");
 
+    
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if(user){
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "Home"}]
+                });
+            }
+        })
+        return unsubscribe;
+    }, []) 
+
+    const handleSignUp = () => {
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredentials) => {
+            const user = userCredentials.user;
+            const data = {
+                fname: firstName,
+                lname: lastName,
+                bday: birthday,
+                email: email,
+                password: password,
+            }
+            setDoc(doc(db, "users", user.uid), data)
+                .then(() => {
+                
+                })
+                .catch((error) => alert(error.message));
+        })
+        .catch((error) => alert(error.message));
+    }
+
     return (
+
         <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
             <View style={styles.wrapper}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -69,7 +107,7 @@ export default function Register() {
                                 secureTextEntry
                             />
 
-                            <TouchableOpacity onPress={() => { navigation.replace("Home") }} style={[styles.registerButton, { marginTop: 30 }]}>
+                            <TouchableOpacity onPress={() => { handleSignUp() }} style={[styles.registerButton, { marginTop: 30 }]}>
                                 <Text style={styles.registerButtonText}>register</Text>
                             </TouchableOpacity>
                         </View>
