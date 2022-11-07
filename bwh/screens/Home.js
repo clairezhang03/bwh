@@ -5,7 +5,6 @@ import Card from "../components/Card"
 import { useNavigation } from '@react-navigation/native'
 
 export default function Home() {
-
     return (
         <View style={styles.background}>
             <SafeAreaView>
