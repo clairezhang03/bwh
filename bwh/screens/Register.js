@@ -27,7 +27,7 @@ export default function Register() {
             if(user){
                 navigation.reset({
                     index: 0,
-                    routes: [{ name: "Home"}]
+                    routes: [{ name: "HomeScreen"}]
                 });
             }
         })

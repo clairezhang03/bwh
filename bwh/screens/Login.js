@@ -35,7 +35,7 @@ export default function Login() {
                                 secureTextEntry
                             />
 
-                            <TouchableOpacity onPress={() => { navigation.replace("Home") }} style={[styles.button, { marginTop: 30 }]}>
+                            <TouchableOpacity onPress={() => { navigation.replace("HomeScreen") }} style={[styles.button, { marginTop: 30 }]}>
                                 <Text style={styles.buttonText}>Log in</Text>
                             </TouchableOpacity>
 
