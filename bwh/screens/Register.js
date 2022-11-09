@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
@@ -18,12 +18,15 @@ export default function Register() {
     const [emailBorder, setEmailBorder] = useState(false);
 
     return (
+        
         <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
             <View style={styles.wrapper}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <SafeAreaView style={styles.wrapper} >
-                        <View style={styles.top}>
-                            <Text style={styles.logoText}>bwh.</Text>
+                        <View style={styles.logo}>
+                            <Text style={styles.logoText}>b
+                                <Text style={{fontStyle: "italic"}}>w</Text>
+                                h.</Text>
                         </View>
 
                         <View style={styles.middle}>
@@ -70,13 +73,13 @@ export default function Register() {
                             />
 
                             <TouchableOpacity onPress={() => { navigation.replace("Home") }} style={[styles.registerButton, { marginTop: 30 }]}>
-                                <Text style={styles.registerButtonText}>register</Text>
+                                <Text style={styles.registerButtonText}>register.</Text>
                             </TouchableOpacity>
                         </View>
 
                         <View style={styles.register}>
                             <TouchableOpacity onPress={() => { navigation.replace("Login") }}>
-                                <Text style={[styles.registerText, { textDecorationLine: "underline" }]}>back to login</Text>
+                                <Text style={[styles.registerText, { textDecorationLine: "underline" }]}>back to login.</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -89,7 +92,7 @@ export default function Register() {
 
 const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: "#00284D",
+        backgroundColor: "#286094",
         flex: 1,
         display: "flex",
         justifyContent: "space-between",
@@ -97,38 +100,54 @@ const styles = StyleSheet.create({
         padding: 20,
     },
 
+
     logoText: {
-        fontSize: 50,
-        fontStyle: "italic",
-        fontWeight: "bold",
-        textAlign: "center",
+
         color: "#FFECBC",
         marginBottom: 20,
-        paddingTop: 20,
+        fontSize: 65,
+        fontStyle: "normal",
+        fontWeight: "bold",
+        textAlign: "center",
+        marginBottom: -100,
+        paddingTop: 50,
     },
 
     input: {
         backgroundColor: "white",
-        marginBottom: 10,
+        margin: 15,
         padding: 18,
         borderRadius: 18,
-        borderWidth: 1,
+        padding: 18,
+        textDecorationLine: 'underline',
+        color: "#286094",
+        fontSize: 18,
+        fontWeight: "500",
     },
 
     registerButton: {
-        padding: 20,
+        padding: 0,
         backgroundColor: "#FFECBC",
-        borderRadius: 18,
+
+        
+        alignSelf: "center",
+        justifyContent: "center",
+        width: 104,
+        height:35,
+        borderRadius: 30,
     },
 
     registerButtonText: {
-        color: "#00284D",
         textAlign: "center",
+        color: "#286094",
         fontSize: 18,
+        fontWeight: "500",
     },
 
     registerText: {
-        color: "#00284D",
+        color: "#FFECBC",
+        fontWeight: "600",
+
     },
 
     register: {
@@ -137,4 +156,5 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignContent: "center",
     },
+
 })

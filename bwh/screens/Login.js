@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native'
+import { StyleSheet, Image, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
@@ -13,9 +13,16 @@ export default function Login() {
         <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
             <View style={styles.wrapper}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    
+
+
+
                     <SafeAreaView style={styles.wrapper} >
-                        <View style={styles.top}>
-                            <Text style={styles.logoText}>bwh.</Text>
+                        <View style={styles.logo}>
+
+                            <Text style={styles.logoText}>b
+                                <Text style={{fontStyle: "italic"}}>w</Text>
+                                h.</Text>
                         </View>
 
                         <View style={styles.middle}>
@@ -35,8 +42,8 @@ export default function Login() {
                                 secureTextEntry
                             />
 
-                            <TouchableOpacity onPress={() => { navigation.replace("Home") }} style={[styles.button, { marginTop: 30 }]}>
-                                <Text style={styles.buttonText}>Log in</Text>
+                            <TouchableOpacity onPress={() => { navigation.replace("Home") }} style={[styles.logInButton, { marginTop: 40 }, {zIndex: 3}]}>
+                                <Text style={styles.logInText}>log in.</Text>
                             </TouchableOpacity>
 
                         </View>
@@ -56,52 +63,68 @@ export default function Login() {
 }
 
 const styles = StyleSheet.create({
+
     wrapper: {
         backgroundColor: "#FDF1D2",
         flex: 1,
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         alignContent: "center",
         padding: 20,
     },
 
+
     logoText: {
-        fontSize: 50,
-        fontStyle: "italic",
+        fontSize: 65,
+        fontStyle: "normal",
         fontWeight: "bold",
         textAlign: "center",
-        color: "#00284D",
-        marginBottom: 20,
-        paddingTop: 20,
+        color: "#286094",
+        marginBottom: -100,
+        paddingTop: 50,
+
     },
 
     input: {
         backgroundColor: "white",
         padding: 18,
         borderRadius: 18,
-        borderWidth: 1,
+        textDecorationLine: 'underline',
+        color: "#286094",
+        fontSize: 18,
+        fontWeight: "500",
+        margin: 25,
+        
+        },
+
+    logInButton: {
+        backgroundColor: "#286094",
+        alignSelf: "center",
+        justifyContent: "center",
+        width: 94,
+        height: 35,
+        borderRadius: 30,
+        
     },
 
-    button: {
-        padding: 20,
-        backgroundColor: "#00284D",
-        borderRadius: 18,
-    },
-
-    buttonText: {
-        color: "#FDF1D2",
+    logInText: {
+        color: "#FFECBC",
         textAlign: "center",
         fontSize: 18,
+
     },
 
     registerText: {
-        color: "#00284D",
+        color: "#286094",
+        fontWeight: "600",
     },
 
     register: {
+        
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
         alignContent: "center",
+        bottom: -80
     },
 })
