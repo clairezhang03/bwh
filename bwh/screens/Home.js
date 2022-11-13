@@ -34,7 +34,7 @@ export default function Home() {
 
                 <View style={styles.top}>
                     <View style={[styles.topLogout]}>
-                        <TouchableOpacity onPress={() => { navigation.navigate("Login") }}>
+                        <TouchableOpacity onPress={() => { handleSignOut() }}>
                              <Image style={styles.logoutIcon} source={require('./assets/logoutIcon.png')}/>
                         </TouchableOpacity>
                     </View>
@@ -49,10 +49,6 @@ export default function Home() {
                 </View>
 
             <SafeAreaView>
-
-                <TouchableOpacity style={styles.signOutButton} onPress={() => { handleSignOut() }} >
-                    <Text style={styles.signOutButtonText}>Sign Out</Text>
-                </TouchableOpacity>
 
                 <Header name="BWH" value={100000} percent={100} />
 
