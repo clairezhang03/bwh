@@ -1,6 +1,8 @@
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useRoute } from '@react-navigation/native'
+import Header from "../components/Header"
+
 
 export default function StockInfo() {
     const routes = useRoute();
@@ -11,13 +13,17 @@ export default function StockInfo() {
                     <Text style={styles.tickerText}>{routes.params.tickerSymbol}</Text>
                     <View>
                         <Text style={styles.priceText}>${routes.params.stockPrice}</Text>
-                        <Text style={styles.percentText}>{routes.params.percentChange}%</Text>
+                        <Text style={[styles.percentText, routes.params.percentChange > 0 ? styles.percentInc : styles.percentDec]}>
+                            {routes.params.percentChange}%
+                             {/* YO FIX THIS */}
+                        </Text>
                     </View>
                 </View>
             </SafeAreaView>
         </View>
     )
 }
+
 
 const styles = StyleSheet.create({
     background: {
@@ -45,7 +51,15 @@ const styles = StyleSheet.create({
         alignContent: "center",
     },
     percentText: {
-        fontSize: 20,
+        fontSize: 25,
         fontWeight: "bold",
+    },
+
+    percentInc:{
+        color: "#06A77D",
+    },
+
+    percentDec:{
+        color: "#D00000", 
     },
 })
