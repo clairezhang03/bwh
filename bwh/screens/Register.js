@@ -1,21 +1,59 @@
-import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image } from 'react-native'
-import React, { useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
 
+import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
+import { auth, db } from '../core/config'
+import { doc, setDoc } from "firebase/firestore";
+
+//DO DATE PICKER
 export default function Register() {
     const navigation = useNavigation();
-    
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [birthday, setBirthday] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const [firstNameBorder, setFirstNameBorder] = useState(false);
-    const [lastNameBorder, setLastNameBorder] = useState(false);
-    const [birthdayBorder, setBirthdayBorder] = useState(false);
-    const [passwordBorder, setPasswordBorder] = useState(false);
-    const [emailBorder, setEmailBorder] = useState(false);
+    const [firstNameBorder, setFirstNameBorder] = useState("#D8D8D8");
+    const [lastNameBorder, setLastNameBorder] = useState("#D8D8D8");
+    const [birthdayBorder, setBirthdayBorder] = useState("#D8D8D8");
+    const [emailBorder, setEmailBorder] = useState("#D8D8D8");
+    const [passwordBorder, setPasswordBorder] = useState("#D8D8D8");
+
+     //send user to home page if already logged in
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if(user){
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "HomeScreen"}]
+                });
+            }
+        })
+        return unsubscribe;
+    }, []) 
+
+    const handleSignUp = () => {
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredentials) => {
+            const user = userCredentials.user;
+            const data = {
+                fname: firstName,
+                lname: lastName,
+                bday: birthday,
+                email: email,
+                password: password,
+            }
+            setDoc(doc(db, "users", user.uid), data)
+                .then(() => {
+                
+                })
+                .catch((error) => alert(error.message));
+        })
+        .catch((error) => alert(error.message));
+    }
 
     return (
         
@@ -72,7 +110,7 @@ export default function Register() {
                                 secureTextEntry
                             />
 
-                            <TouchableOpacity onPress={() => { navigation.replace("Home") }} style={[styles.registerButton, { marginTop: 30 }]}>
+                            <TouchableOpacity onPress={() => { handleSignUp() }} style={[styles.registerButton, { marginTop: 30 }]}>
                                 <Text style={styles.registerButtonText}>register.</Text>
                             </TouchableOpacity>
                         </View>
