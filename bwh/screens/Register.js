@@ -21,7 +21,7 @@ export default function Register() {
     const [emailBorder, setEmailBorder] = useState("#D8D8D8");
     const [passwordBorder, setPasswordBorder] = useState("#D8D8D8");
 
-    
+     //send user to home page if already logged in
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if(user){
@@ -55,7 +55,6 @@ export default function Register() {
     }
 
     return (
-
         <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
             <View style={styles.wrapper}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

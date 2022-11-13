@@ -1,6 +1,9 @@
 import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
+import { auth } from '../core/config'
+//import { doc, setDoc, Timestamp, addDoc, getDoc } from "firebase/firestore";
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
 
 export default function Login() {
     const navigation = useNavigation();
@@ -8,6 +11,28 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [emailBorder, setEmailBorder] = useState("#D8D8D8");
     const [passwordBorder, setPasswordBorder] = useState("#D8D8D8");
+
+    //send user to home page if already logged in
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'HomeScreen' }]
+                });
+            }
+        })
+        return unsubscribe;
+    }, [])
+
+    //if wrong email / passwd --> error, useEffect will send to home screen already
+    const handleLogin = () => {
+        
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredentials) => {
+            })
+            .catch((error) => alert(error.message));
+    }
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
@@ -35,7 +60,7 @@ export default function Login() {
                                 secureTextEntry
                             />
 
-                            <TouchableOpacity onPress={() => { navigation.replace("HomeScreen") }} style={[styles.button, { marginTop: 30 }]}>
+                            <TouchableOpacity onPress={() => { handleLogin() }} style={[styles.button, { marginTop: 30 }]}>
                                 <Text style={styles.buttonText}>Log in</Text>
                             </TouchableOpacity>
 
@@ -47,7 +72,6 @@ export default function Login() {
                                 <Text style={[styles.registerText, { textDecorationLine: "underline" }]}>register</Text>
                             </TouchableOpacity>
                         </View>
-
                     </SafeAreaView>
                 </TouchableWithoutFeedback>
             </View>
