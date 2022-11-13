@@ -14,14 +14,13 @@ export default function Header(props) {
         greeting = "Good Night";
     }
 
-    let percentColor = "#D00000";
+    var percentColor = "#D00000";
     if (props.percent > 0) {
         percentColor = "#06A77D";
     }
 
     return (
         <View style={styles.headerWrapper}>
-            <Text style={styles.logoText}>bwh.</Text>
             <View style={styles.greetingWrapper}>
                 <Text style={styles.greetingText}>{greeting}, {"\n"+props.name}</Text>
                 <View> 
@@ -41,14 +40,7 @@ const styles = StyleSheet.create({
     headerWrapper: {
         padding: 20
     },
-    logoText: {
-        fontSize: 50,
-        fontStyle: "italic",
-        fontWeight: "bold",
-        textAlign: "center",
-        color: "#FFF9EB",
-        marginBottom: 20,
-    },
+
     greetingWrapper: {
         backgroundColor: "#0E487D",
         borderRadius: 200,
