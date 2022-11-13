@@ -39,9 +39,6 @@ export default function Login() {
         <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
             <View style={styles.wrapper}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    
-
-
 
                     <SafeAreaView style={styles.wrapper} >
                         <View style={styles.logo}>
@@ -106,7 +103,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
         color: "#286094",
-        marginBottom: -100,
+        marginBottom: -50,
         paddingTop: 50,
 
     },
