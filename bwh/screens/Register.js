@@ -45,6 +45,9 @@ export default function Register() {
                 bday: birthday,
                 email: email,
                 password: password,
+                balance: 0,
+                investedStocks: [],
+                watchlist: [],
             }
             setDoc(doc(db, "users", user.uid), data)
                 .then(() => {
