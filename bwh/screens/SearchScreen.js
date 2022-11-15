@@ -1,21 +1,35 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import Search from '../components/Search'
+import Constants from 'expo-constants'
+import SearchStocks from '../components/SearchStocks'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import SearchUsers from '../components/SearchUsers'
 
 export default function SearchScreen() {
+  const Tab = createMaterialTopTabNavigator();
+
   return (
-    <View style={styles.background}>
-        <SafeAreaView>
-            <Search/>
-        </SafeAreaView>
-    </View>
-  )
+    <Tab.Navigator
+      screenOptions={{
+        tabBarLabelStyle: { fontSize: 15 },
+        tabBarActiveTintColor: 'white',
+        tabBarInactiveTintColor: 'white',
+        tabBarItemStyle: { width: 100 },
+        tabBarStyle: { backgroundColor: '#00284D' },
+      }}
+      style={styles.tabBar}
+    >
+      <Tab.Screen name="Stocks" component={SearchStocks} />
+      <Tab.Screen name="Users" component={SearchUsers} />
+    </Tab.Navigator>
+  );
 }
 
 const styles = StyleSheet.create({
-    background: {
-        backgroundColor: "#00284D",
-        flex: 1,
-    },
+  background: {
+    backgroundColor: "#00284D",
+    flex: 1,
+  },
+  tabBar: {
+    marginTop: Constants.statusBarHeight,    
+  },
 })
