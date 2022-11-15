@@ -8,30 +8,36 @@ import { signOut, getAuth, onAuthStateChanged} from "firebase/auth";
 import { auth, db } from '../core/config';
 import { doc, getDoc } from "firebase/firestore";
 import AppLoading from 'expo-app-loading';
+import { useAuthState } from '../core/authstate'
 
 export default function Home() {
     const navigation = useNavigation();
     const [initializing, setInitializing] = useState(true);
     const [user, setUser] = useState();
     const [userDoc, setUserDoc] = useState(null);
+    const uid = useAuthState()
 
-    function checkAuthState(user) {
-        setUser(user);
-        if (user !== null) {
-            getDoc(doc(db, "users", user.uid)).then((snapShot) => {
-                setUserDoc(snapShot.data())
-            }).catch((e) => alert(e))
-        }
-        if (initializing) setInitializing(false);
-    }
+    // function checkAuthState(user) {
+    //     setUser(user);
+    //     if (user !== null) {
+    //         // useUpdateAuthState(user.uid);
+    //         getDoc(doc(db, "users", user.uid)).then((snapShot) => {
+    //             setUserDoc(snapShot.data())
+    //         }).catch((e) => alert(e))
+    //     }
+    //     if (initializing) setInitializing(false);
+    // }
 
     useEffect(() => {
-        const subscriber = onAuthStateChanged(auth, checkAuthState);
-        return subscriber; 
+        // const subscriber = onAuthStateChanged(auth, checkAuthState);
+        // return subscriber; 
+        getDoc(doc(db, "users", uid)).then((snapShot) => {
+            setUserDoc(snapShot.data())
+        }).catch((e) => alert(e))
     }, []);
 
     //prevents page from showing undefined in greeting
-    if (initializing || userDoc == null) return <AppLoading />;
+    if (userDoc == null) return <AppLoading />;
 
     signOutUser = async () => {
         try {

@@ -1,9 +1,13 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
+import { useAuthState } from '../core/authstate';
+import { db } from '../core/config';
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 export default function Card(props) {
     const navigation = useNavigation();
+    const uid = useAuthState();
 
     let buttonColor = "#F9FFEF";
     let textColor = "#06A77D";
@@ -12,11 +16,18 @@ export default function Card(props) {
         textColor = "#D00000";
     }
 
+    const addToWatchList = (tickerSymbol) => {
+        updateDoc(doc(db, "users", uid), {
+            watchlist: arrayUnion(tickerSymbol),
+        }).then(() => {
+        }).catch((e) => console.log(e));
+    }
+
     return (
         <View>
             <TouchableOpacity 
             style={[styles.button, {backgroundColor: buttonColor}]}
-            onPress={() => { navigation.navigate("StockInfo", {tickerSymbol: props.tickerSymbol, name: props.name, stockPrice: props.stockPrice, percentChange: props.percentChange}) }}
+            onPress={() => addToWatchList(props.tickerSymbol)/*{ navigation.navigate("StockInfo", {tickerSymbol: props.tickerSymbol, name: props.name, stockPrice: props.stockPrice, percentChange: props.percentChange}) }*/}
             >
                 <View style={styles.textFormat}>
                     <View>
@@ -64,5 +75,4 @@ const styles = StyleSheet.create({
     percentText: {
         fontSize: 20,
     },
-
 })
