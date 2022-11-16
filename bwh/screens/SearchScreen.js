@@ -13,10 +13,11 @@ export default function SearchScreen() {
         tabBarLabelStyle: { fontSize: 15 },
         tabBarActiveTintColor: 'white',
         tabBarInactiveTintColor: 'white',
-        tabBarItemStyle: { width: 100 },
+        tabBarItemStyle: { width: Constants.width },
         tabBarStyle: { backgroundColor: '#00284D' },
       }}
       style={styles.tabBar}
+     
     >
       <Tab.Screen name="Stocks" component={SearchStocks} />
       <Tab.Screen name="Users" component={SearchUsers} />

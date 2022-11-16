@@ -48,7 +48,7 @@ export default function SearchStocks() {
   let timer = null;
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity >
+    <TouchableOpacity onPress={()=> navigation.navigate("StockInfo", {data: item})}>
       <Card symbol={item.symbol} description={item.description} />
     </TouchableOpacity>
   );
