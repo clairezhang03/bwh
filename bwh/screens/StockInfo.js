@@ -5,16 +5,18 @@ import Header from "../components/Header"
 
 
 export default function StockInfo() {
-    const routes = useRoute();
+    const route = useRoute();
+    const { data } = route.params;
+    const fetcher = (url) => fetch(url).then((r) => r.json())
     return (
         <View style={styles.background}>
             <SafeAreaView>
                 <View style={styles.topFormat}>
-                    <Text style={styles.tickerText}>{routes.params.tickerSymbol}</Text>
+                    <Text style={styles.tickerText}>{route.params.tickerSymbol}</Text>
                     <View>
-                        <Text style={styles.priceText}>${routes.params.stockPrice}</Text>
-                        <Text style={[styles.percentText, routes.params.percentChange > 0 ? styles.percentInc : styles.percentDec]}>
-                            {routes.params.percentChange}%
+                        <Text style={styles.priceText}>${route.params.stockPrice}</Text>
+                        <Text style={[styles.percentText, route.params.percentChange > 0 ? styles.percentInc : styles.percentDec]}>
+                            {route.params.percentChange}%
                              {/* YO FIX THIS */}
                         </Text>
                     </View>
