@@ -1,10 +1,10 @@
 
 import { SafeAreaView, StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from "../components/Header"
 import Card from "../components/Card"
 import { useNavigation } from '@react-navigation/native'
-import { signOut, getAuth, onAuthStateChanged} from "firebase/auth";
+import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from '../core/config';
 import { doc, getDoc } from "firebase/firestore";
 import AppLoading from 'expo-app-loading';
@@ -47,7 +47,7 @@ export default function Home() {
             alert(error);
         }
     }
-        
+
     const handleSignOut = () => {
         signOutUser();
         navigation.reset({
@@ -77,21 +77,27 @@ export default function Home() {
 
             <SafeAreaView>
 
-                <Header name={userDoc?.fname} value={100000} percent={100} />
-
-                <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
-                    <Image style={styles.heart} source={require('./assets/heart.png')} />
-                    <Text style={styles.watchlistText}>Watchlist</Text>
-                </View>
 
                 <ScrollView>
-                    <Card tickerSymbol="SPOT" name="Spotify" percentChange={-12} stockPrice={63} />
-                    <Card tickerSymbol="AAPL" name="Apple" percentChange={100} stockPrice={100} />
-                    <Card tickerSymbol="AAPL" name="Apple" percentChange={100} stockPrice={100} />
-                    <Card tickerSymbol="AAPL" name="Apple" percentChange={100} stockPrice={100} />
-                    <Card tickerSymbol="AAPL" name="Apple" percentChange={100} stockPrice={100} />
+                    <Header name={userDoc?.fname} value={100000} percent={100} />
+
+                    <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
+                        <Image style={styles.heart} source={require('./assets/heart.png')} />
+                        <Text style={styles.watchlistText}>Watchlist</Text>
+                    </View>
+                    <Card symbol="SPOT" description="Spotify" />
+                    <Card symbol="AAPL" description="Apple" />
+                    <Card symbol="AAPL" description="Apple" />
+                    <Card symbol="AAPL" description="Apple" />
+                    <Card symbol="AAPL" description="Apple" />
+                    <Card symbol="AAPL" description="Apple" />
+                    <Card symbol="AAPL" description="Apple" />
+                    <Card symbol="AAPL" description="Apple" />
+                    <Card symbol="AAPL" description="Apple" />
+                    <Card symbol="AAPL" description="Apple" />
 
                 </ScrollView>
+
             </SafeAreaView>
         </View >
     )
@@ -117,7 +123,7 @@ const styles = StyleSheet.create({
     },
 
     logoText: {
-        fontSize: 50,
+        fontSize: 30,
         fontStyle: "normal",
         fontWeight: "bold",
         color: "#FDF1D2",
