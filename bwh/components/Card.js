@@ -23,11 +23,15 @@ export default function Card(props) {
         }).catch((e) => console.log(e));
     }
 
+    /*() => useUser.addToWatchlist({
+                    tickerSymbol: props.tickerSymbol,
+                    description: props.name
+                })*/
     return (
         <View>
             <TouchableOpacity 
             style={[styles.button, {backgroundColor: buttonColor}]}
-            onPress={() => addToWatchList(props.tickerSymbol)/*{ navigation.navigate("StockInfo", {tickerSymbol: props.tickerSymbol, name: props.name, stockPrice: props.stockPrice, percentChange: props.percentChange}) }*/}
+            onPress={() => { navigation.navigate("StockInfo", {tickerSymbol: props.tickerSymbol, name: props.name, stockPrice: props.stockPrice, percentChange: props.percentChange}) }}
             >
                 <View style={styles.textFormat}>
                     <View>

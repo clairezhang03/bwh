@@ -4,14 +4,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './StackNavigator';
 import AuthStateProvider from './core/authstate';
+import UserState from './core/userstate';
 
 export default function App() {
   return (
-    <AuthStateProvider>
+    <UserState>
       <NavigationContainer>
         <StackNavigator />
       </NavigationContainer>
-    </AuthStateProvider>
+    </UserState>
   );
 }
 
