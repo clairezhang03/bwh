@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, ScrollView, View, Image } from 'react-native'
 import React from 'react'
 import { useRoute } from '@react-navigation/native'
 import { useAuthState } from '../core/authstate';
@@ -39,6 +39,23 @@ export default function StockInfo() {
                     <Image style={styles.heart} source={require('./assets/heart.png')} />
                 </TouchableOpacity>
             </SafeAreaView>
+
+            <SafeAreaView>
+                <View style={styles.detailsFormat}>
+                    <View>
+                        <Text style={styles.detailsText}>High Price of the Day:</Text>
+                        <Text style={styles.detailsText}>Low Price of the Day:</Text>
+                        <Text style={styles.detailsText}>Open Price of the Day:</Text>
+                        <Text style={styles.detailsText}>Previous Close Price:</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.numbersText}>${stockData.data?.h.toFixed(2)}</Text>
+                        <Text style={styles.numbersText}>${stockData.data?.l.toFixed(2)}</Text>
+                        <Text style={styles.numbersText}>${stockData.data?.o.toFixed(2)}</Text>
+                        <Text style={styles.numbersText}>${stockData.data?.pc.toFixed(2)}</Text>
+                    </View>
+                </View>
+            </SafeAreaView>
         </View>
     )
 }
@@ -63,11 +80,32 @@ const styles = StyleSheet.create({
         marginTop: 30,
         marginRight: 20,
     },
+    detailsText: {
+        fontSize: 20,
+        color: "#FDF1D2", 
+        marginLeft: 30,
+        fontWeight: "bold",
+        marginBottom:16.5,
+    },
+    numbersText: {
+        fontSize: 25,
+        color: "white",
+        fontWeight: "bold",
+        marginBottom:10,
+    },
     topFormat: {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         alignContent: "center",
+    },
+    detailsFormat: {
+        display: "flex",
+        flexDirection: "row",
+        alignContent: "center",
+        justifyContent: "space-between",
+        marginRight: 30,
+        marginTop: 30,
     },
     percentText: {
         fontSize: 25,
