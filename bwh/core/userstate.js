@@ -1,7 +1,7 @@
 import React, { useState, useContext, createContext, useEffect } from 'react';
 import { auth, db } from '../core/config'
 import { onAuthStateChanged } from 'firebase/auth'
-import { getDoc, updateDoc,arrayUnion } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, arrayUnion} from 'firebase/firestore';
 
 const user = createContext();
 
@@ -10,23 +10,34 @@ export const useUser = () => {
 }
 
 function UserState({ children }) {
-    const [uid, setUid] = useState(undefined);
+    const [uid, setUid] = useState();
     const [userDoc, setUserDoc] = useState();
-    //const [uid, setUid] = useState(undefined);
-   
+
     /*
     useEffect(() => {
         //if user is undefined, it isn't doing anything
         const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user.uid === undefined) {
+                setUid(undefined);
+            }
+            else {
+                setUid(user.uid);
+            }
+
             if (user) {
                 setUid(user.uid)
+                const docRef = doc(db, "users", uid);
+                const docSnap = await getDoc(docRef);
+                
+                
                 getDoc(doc(db, "users", uid)).then((snapShot) => {
                     setUserDoc(snapShot.data())
                 }).catch((e) => alert(e))
+            
             }
         })
         return unsubscribe;
-    }, [])*/
+    }, []) */
 
     const updateUid = (userId) => {
         if (userId === undefined) {

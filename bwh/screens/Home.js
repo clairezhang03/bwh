@@ -1,37 +1,27 @@
 
 import { SafeAreaView, StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from "../components/Header"
 import Card from "../components/Card"
 import { useNavigation } from '@react-navigation/native'
-import { signOut, getAuth, onAuthStateChanged} from "firebase/auth";
+import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from '../core/config';
 import { doc, getDoc } from "firebase/firestore";
 import AppLoading from 'expo-app-loading';
 import { useAuthState } from '../core/authstate'
+import { useUser } from '../core/userstate'
+import UserState from '../core/userstate'
 
 export default function Home() {
     const navigation = useNavigation();
     const [initializing, setInitializing] = useState(true);
-    const [user, setUser] = useState();
+    //const [user, setUser] = useState();
     const [userDoc, setUserDoc] = useState(null);
-    const uid = useAuthState()
-
-    // function checkAuthState(user) {
-    //     setUser(user);
-    //     if (user !== null) {
-    //         // useUpdateAuthState(user.uid);
-    //         getDoc(doc(db, "users", user.uid)).then((snapShot) => {
-    //             setUserDoc(snapShot.data())
-    //         }).catch((e) => alert(e))
-    //     }
-    //     if (initializing) setInitializing(false);
-    // }
 
     useEffect(() => {
         // const subscriber = onAuthStateChanged(auth, checkAuthState);
         // return subscriber; 
-        getDoc(doc(db, "users", uid)).then((snapShot) => {
+        getDoc(doc(db, "users", user.uid)).then((snapShot) => {
             setUserDoc(snapShot.data())
         }).catch((e) => alert(e))
     }, []);
@@ -47,7 +37,7 @@ export default function Home() {
             alert(error);
         }
     }
-        
+
     const handleSignOut = () => {
         signOutUser();
         navigation.reset({

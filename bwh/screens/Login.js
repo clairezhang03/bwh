@@ -7,6 +7,7 @@ import { auth } from '../core/config'
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
 import { useUpdateAuthState } from '../core/authstate'
 import UserState from '../core/userstate'
+import { useUser } from '../core/userstate'
 
 export default function Login() {
     const navigation = useNavigation();
@@ -15,13 +16,13 @@ export default function Login() {
     const [emailBorder, setEmailBorder] = useState("#D8D8D8");
     const [passwordBorder, setPasswordBorder] = useState("#D8D8D8");
     //const updateAuth = useUpdateAuthState();
+    const updateUndefinedId = useUser();
 
     //send user to home page if already logged in
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                //updateAuth(user.uid);
-                UserState.updateUid(user.uid);
+                updateUndefinedId.updateUid(user.uid);
                 navigation.reset({
                     index: 0,
                     routes: [{ name: 'HomeScreen' }]
