@@ -15,7 +15,7 @@ export default function Home() {
     const [initializing, setInitializing] = useState(true);
     const [user, setUser] = useState();
     const [userDoc, setUserDoc] = useState(null);
-    const uid = useAuthState()
+    const uid = useAuthState();
 
     // function checkAuthState(user) {
     //     setUser(user);
@@ -34,7 +34,7 @@ export default function Home() {
         getDoc(doc(db, "users", uid)).then((snapShot) => {
             setUserDoc(snapShot.data())
         }).catch((e) => alert(e))
-    }, []);
+    });
 
     //prevents page from showing undefined in greeting
     if (userDoc == null) return <AppLoading />;
@@ -56,8 +56,14 @@ export default function Home() {
         });
     }
 
+    let watchlist = userDoc?.watchlist;
+    let cardListArray = [];
+    for (let i = 0; i < watchlist.length; i++) {
+        cardListArray.push(
+            <Card symbol={watchlist[i].tickerSymbol} description={watchlist[i].description} />
+        );
+    }
     return (
-
         <View style={styles.background}>
             <View style={styles.top}>
                 <View style={[styles.topLogout]}>
@@ -65,13 +71,11 @@ export default function Home() {
                         <Image style={styles.logoutIcon} source={require('./assets/logoutIcon.png')} />
                     </TouchableOpacity>
                 </View>
-
                 <View style={styles.topLogo}>
                     <Text style={styles.logoText}>b
                         <Text style={{ fontStyle: "italic" }}>w</Text>
                         h.</Text>
                 </View>
-
 
             </View>
 
@@ -85,16 +89,20 @@ export default function Home() {
                         <Image style={styles.heart} source={require('./assets/heart.png')} />
                         <Text style={styles.watchlistText}>Watchlist</Text>
                     </View>
-                    <Card symbol="SPOT" description="Spotify" />
+                    {cardListArray}
+                    <Card symbol="AAPL" description="Apple" />
+                    <Card symbol="AAPL" description="Apple" />
+
+                    {/* <Card symbol={watchlist[0]} description="Spotify" />
+                    <Card symbol={watchlist[1]} description="Apple" /> */}
+                    {/* <Card symbol="AAPL" description="Apple" />
                     <Card symbol="AAPL" description="Apple" />
                     <Card symbol="AAPL" description="Apple" />
                     <Card symbol="AAPL" description="Apple" />
                     <Card symbol="AAPL" description="Apple" />
                     <Card symbol="AAPL" description="Apple" />
                     <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
+                    <Card symbol="AAPL" description="Apple" /> */}
 
                 </ScrollView>
 
