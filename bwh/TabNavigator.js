@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Placeholder from './screens/Placeholder';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import UserProfile from './screens/UserProfile';
+import SearchScreen from './screens/SearchScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -40,7 +41,7 @@ export default function TabNavigator() {
     })}>
         <Tab.Screen name = "Home" component={Home} options={{headerShown: false}}/>
         <Tab.Screen name = "Profile" component={UserProfile} options = {{headerShown: false}}/>
-        <Tab.Screen name = "Search" component={Placeholder} options={{headerShown: false}}/>
+        <Tab.Screen name = "Search" component={SearchScreen} options={{headerShown: false}}/>
         <Tab.Screen name = "Leaderboard" component={Placeholder} options={{headerShown: false}}/>
     </Tab.Navigator>
   )

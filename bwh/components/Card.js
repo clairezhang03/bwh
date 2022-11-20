@@ -1,31 +1,46 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
+import { useAuthState } from '../core/authstate';
+import { db } from '../core/config';
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import useSWR from "swr"
 
 export default function Card(props) {
     const navigation = useNavigation();
+    const uid = useAuthState();
+    const fetcher = (url) => fetch(url).then((r) => r.json())
+    const stockData = useSWR(`https://finnhub.io/api/v1/quote?symbol=${props.symbol}&token=cdp0asaad3i3u5gonhhgcdp0asaad3i3u5gonhi0`, fetcher, { refreshInterval: 1000 });
+
 
     let buttonColor = "#F9FFEF";
     let textColor = "#06A77D";
-    if (props.percentChange < 0) {
+    if (stockData.data?.dp < 0) {
         buttonColor = "#FFF1EA";
         textColor = "#D00000";
+    }
+
+    const addToWatchList = (tickerSymbol) => {
+        updateDoc(doc(db, "users", uid), {
+            watchlist: arrayUnion(tickerSymbol),
+        }).then(() => {
+        }).catch((e) => console.log(e));
     }
 
     return (
         <View>
             <TouchableOpacity 
             style={[styles.button, {backgroundColor: buttonColor}]}
-            onPress={() => { navigation.navigate("StockInfo", {tickerSymbol: props.tickerSymbol, name: props.name, stockPrice: props.stockPrice, percentChange: props.percentChange}) }}
+            onPress={() => /*addToWatchList(props.tickerSymbol){*/ navigation.navigate("StockInfo", {data: {symbol: props.symbol}}) }
             >
                 <View style={styles.textFormat}>
                     <View>
-                        <Text style={[styles.tickerText, {color: textColor}]}>{props.tickerSymbol}</Text>
-                        <Text style={[styles.nameText, {color: textColor}]}>{props.name}</Text>
+                        <Text style={[styles.tickerText, {color: textColor}]}>{props.symbol}</Text>
+                        <Text style={[styles.nameText, {color: textColor}]}>{props.description}</Text>
                     </View>
                     <View>
-                        <Text style={styles.priceText}>${props.stockPrice}</Text>
-                        <Text style={[styles.percentText, {color: textColor}]}>{(props.percentChange>0? "+":"") + props.percentChange}%</Text>
+                        <Text style={styles.priceText}>${stockData.data?.c}</Text>
+                        <Text style={[styles.percentText, {color: textColor}]}>{(stockData.data?.dp>0? "+":"") + stockData.data?.dp}%</Text>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -64,5 +79,4 @@ const styles = StyleSheet.create({
     percentText: {
         fontSize: 20,
     },
-
 })

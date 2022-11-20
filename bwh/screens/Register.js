@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 import { auth, db } from '../core/config'
 import { doc, setDoc } from "firebase/firestore";
+import { useUpdateAuthState } from '../core/authstate'
 
 //DO DATE PICKER
 export default function Register() {
@@ -22,10 +23,13 @@ export default function Register() {
     const [emailBorder, setEmailBorder] = useState("#D8D8D8");
     const [passwordBorder, setPasswordBorder] = useState("#D8D8D8");
 
-     //send user to home page if already logged in
+    const updateAuth = useUpdateAuthState();
+
+    //send user to home page if already logged in
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if(user){
+                updateAuth(user.uid);
                 navigation.reset({
                     index: 0,
                     routes: [{ name: "HomeScreen"}]
@@ -45,6 +49,9 @@ export default function Register() {
                 bday: birthday,
                 email: email,
                 password: password,
+                balance: 0,
+                investedStocks: [],
+                watchlist: [],
             }
             setDoc(doc(db, "users", user.uid), data)
                 .then(() => {
