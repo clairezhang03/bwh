@@ -5,6 +5,7 @@ import { useAuthState } from '../core/authstate';
 import { db } from '../core/config';
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import useSWR from "swr"
+import Chart from '../components/Chart'
 
 export default function StockInfo() {
     const route = useRoute();
@@ -39,6 +40,13 @@ export default function StockInfo() {
                     <Image style={styles.heart} source={require('./assets/heart.png')} />
                 </TouchableOpacity>
             </SafeAreaView>
+
+            <View>
+                <Chart 
+                    stock={data}
+                />
+            </View>
+            
 
             <SafeAreaView>
                 <View style={styles.detailsFormat}>
