@@ -3,7 +3,8 @@ import React from 'react';
 import Home from './screens/Home';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Placeholder from './screens/Placeholder';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import UserProfile from './screens/UserProfile';
 
 
 const Tab = createBottomTabNavigator();
@@ -23,7 +24,9 @@ export default function TabNavigator() {
         }
         else if (route.name === "Leaderboard") {
           iconName = focused ? 'trophy' : 'trophy-outline';
-
+        }
+        else if(route.name === "Profile") {
+          iconName = focused ? 'person-circle-sharp' : 'person-circle-outline';
         }
         return <Ionicons name={iconName} size={size} color={color} />;
       },
@@ -36,6 +39,7 @@ export default function TabNavigator() {
       tabBarInactiveTintColor: 'gray',
     })}>
         <Tab.Screen name = "Home" component={Home} options={{headerShown: false}}/>
+        <Tab.Screen name = "Profile" component={UserProfile} options = {{headerShown: false}}/>
         <Tab.Screen name = "Search" component={Placeholder} options={{headerShown: false}}/>
         <Tab.Screen name = "Leaderboard" component={Placeholder} options={{headerShown: false}}/>
     </Tab.Navigator>
