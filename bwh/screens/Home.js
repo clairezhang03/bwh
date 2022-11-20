@@ -77,6 +77,9 @@ export default function Home() {
 
             <SafeAreaView>
 
+                <TouchableOpacity onPress={() => {navigation.replace("null")}}> {/*replace with "user profile", but fix issues with tab navigation */}
+                    <Header name="BWH" value={100000} percent={100} />
+                </TouchableOpacity>
 
                 <ScrollView>
                     <Header name={userDoc?.fname} value={100000} percent={100} />
