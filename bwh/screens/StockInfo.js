@@ -12,8 +12,8 @@ export default function StockInfo() {
     const uid = useAuthState();
     const { data } = route.params;
     const fetcher = (url) => fetch(url).then((r) => r.json())
-    const stockData = useSWR(`https://finnhub.io/api/v1/quote?symbol=${data.symbol}&token=cdp0asaad3i3u5gonhhgcdp0asaad3i3u5gonhi0`, fetcher, { refreshInterval: 1000 });
-    
+    const stockData = useSWR(`https://finnhub.io/api/v1/quote?symbol=${data.symbol}&token=cdp0asaad3i3u5gonhhgcdp0asaad3i3u5gonhi0`, fetcher, { refreshInterval: 10000 });
+
     const addToWatchList = (tickerSymbol) => {
         updateDoc(doc(db, "users", uid), {
             watchlist: arrayUnion(tickerSymbol),
@@ -21,51 +21,64 @@ export default function StockInfo() {
         }).catch((e) => console.log(e));
     }
 
-    return (
-        <View style={styles.background}>
-            <SafeAreaView>
-                <View style={styles.topFormat}>
-                    <Text style={styles.tickerText}>{data.symbol}</Text>
-                    <View>
-                        <Text style={styles.priceText}>${stockData.data?.c}</Text>
-                        <Text style={[styles.percentText, stockData.data?.dp >= 0 ? styles.percentInc : styles.percentDec]}>
-                            {stockData.data?.dp}%
-                        </Text>
+    if (stockData.data?.h === undefined) {
+        return (
+            <View style={styles.background}>
+                <SafeAreaView>
+                    <View style={styles.loading}>
+                        <Text style={styles.loadingText}>loading data...</Text>
                     </View>
-                </View>
-                <TouchableOpacity
-                    style={styles.favoriteButton}
-                    onPress={() => addToWatchList(data.symbol)}
-                >
-                    <Image style={styles.heart} source={require('./assets/heart.png')} />
-                </TouchableOpacity>
-            </SafeAreaView>
-
-            <View>
-                <Chart 
-                    stock={data.symbol}
-                />
+                </SafeAreaView>
             </View>
-            
-
-            <SafeAreaView>
-                <View style={styles.detailsFormat}>
-                    <View>
-                        <Text style={styles.detailsText}>High Price of the Day:</Text>
-                        <Text style={styles.detailsText}>Low Price of the Day:</Text>
-                        <Text style={styles.detailsText}>Open Price of the Day:</Text>
-                        <Text style={styles.detailsText}>Previous Close Price:</Text>
+        )
+    }
+    else {
+        return (
+            <View style={styles.background}>
+                <SafeAreaView>
+                    <View style={styles.topFormat}>
+                        <Text style={styles.tickerText}>{data.symbol}</Text>
+                        <View>
+                            <Text style={styles.priceText}>${stockData.data?.c}</Text>
+                            <Text style={[styles.percentText, stockData.data?.dp >= 0 ? styles.percentInc : styles.percentDec]}>
+                                {stockData.data?.dp}%
+                            </Text>
+                        </View>
                     </View>
-                    <View>
-                        <Text style={styles.numbersText}>${stockData.data?.h.toFixed(2)}</Text>
-                        <Text style={styles.numbersText}>${stockData.data?.l.toFixed(2)}</Text>
-                        <Text style={styles.numbersText}>${stockData.data?.o.toFixed(2)}</Text>
-                        <Text style={styles.numbersText}>${stockData.data?.pc.toFixed(2)}</Text>
-                    </View>
+                    <TouchableOpacity
+                        style={styles.favoriteButton}
+                        onPress={() => addToWatchList(data.symbol)}
+                    >
+                        <Image style={styles.heart} source={require('./assets/heart.png')} />
+                    </TouchableOpacity>
+                </SafeAreaView>
+    
+                <View>
+                    <Chart
+                        stock={data.symbol}
+                    />
                 </View>
-            </SafeAreaView>
-        </View>
-    )
+    
+    
+                <SafeAreaView>
+                    <View style={styles.detailsFormat}>
+                        <View>
+                            <Text style={styles.detailsText}>High Price of the Day:</Text>
+                            <Text style={styles.detailsText}>Low Price of the Day:</Text>
+                            <Text style={styles.detailsText}>Open Price of the Day:</Text>
+                            <Text style={styles.detailsText}>Previous Close Price:</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.numbersText}>${stockData.data?.h.toFixed(2)}</Text>
+                            <Text style={styles.numbersText}>${stockData.data?.l.toFixed(2)}</Text>
+                            <Text style={styles.numbersText}>${stockData.data?.o.toFixed(2)}</Text>
+                            <Text style={styles.numbersText}>${stockData.data?.pc.toFixed(2)}</Text>
+                        </View>
+                    </View>
+                </SafeAreaView>
+            </View>
+        )
+    }
 }
 
 
@@ -73,6 +86,16 @@ const styles = StyleSheet.create({
     background: {
         backgroundColor: "#00284D",
         flex: 1,
+    },
+    loading: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height:"100%"
+    },
+    loadingText:{
+        fontSize:40,
+        color: "white",
+        fontWeight: "bold",
     },
     tickerText: {
         fontSize: 40,
@@ -90,16 +113,16 @@ const styles = StyleSheet.create({
     },
     detailsText: {
         fontSize: 20,
-        color: "#FDF1D2", 
+        color: "#FDF1D2",
         marginLeft: 30,
         fontWeight: "bold",
-        marginBottom:16.5,
+        marginBottom: 16.5,
     },
     numbersText: {
         fontSize: 25,
         color: "white",
         fontWeight: "bold",
-        marginBottom:10,
+        marginBottom: 10,
     },
     topFormat: {
         display: "flex",
