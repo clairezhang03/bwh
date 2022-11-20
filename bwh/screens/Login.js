@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { auth } from '../core/config'
 //import { doc, setDoc, Timestamp, addDoc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
+import { useUpdateAuthState } from '../core/authstate'
 
 export default function Login() {
     const navigation = useNavigation();
@@ -12,11 +13,13 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [emailBorder, setEmailBorder] = useState("#D8D8D8");
     const [passwordBorder, setPasswordBorder] = useState("#D8D8D8");
+    const updateAuth = useUpdateAuthState();
 
     //send user to home page if already logged in
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
+                updateAuth(user.uid);
                 navigation.reset({
                     index: 0,
                     routes: [{ name: 'HomeScreen' }]
@@ -28,7 +31,6 @@ export default function Login() {
 
     //if wrong email / passwd --> error, useEffect will send to home screen already
     const handleLogin = () => {
-        
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredentials) => {
             })

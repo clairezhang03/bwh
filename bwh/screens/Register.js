@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 import { auth, db } from '../core/config'
 import { doc, setDoc } from "firebase/firestore";
+import { useUpdateAuthState } from '../core/authstate'
 
 //DO DATE PICKER
 export default function Register() {
@@ -15,55 +16,66 @@ export default function Register() {
     const [birthday, setBirthday] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [balance, setBalance] = useState(0);
 
     const [firstNameBorder, setFirstNameBorder] = useState("#D8D8D8");
     const [lastNameBorder, setLastNameBorder] = useState("#D8D8D8");
     const [birthdayBorder, setBirthdayBorder] = useState("#D8D8D8");
     const [emailBorder, setEmailBorder] = useState("#D8D8D8");
     const [passwordBorder, setPasswordBorder] = useState("#D8D8D8");
+    const [balanceBorder, setBalanceBorder] = useState("#D8D8D8")
 
-     //send user to home page if already logged in
+    const updateAuth = useUpdateAuthState();
+
+    //send user to home page if already logged in
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if(user){
+            if (user) {
+                updateAuth(user.uid);
                 navigation.reset({
                     index: 0,
-                    routes: [{ name: "HomeScreen"}]
+                    routes: [{ name: "HomeScreen" }]
                 });
             }
         })
         return unsubscribe;
-    }, []) 
+    }, [])
 
     const handleSignUp = () => {
         createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredentials) => {
-            const user = userCredentials.user;
-            const data = {
-                fname: firstName,
-                lname: lastName,
-                bday: birthday,
-                email: email,
-                password: password,
-            }
-            setDoc(doc(db, "users", user.uid), data)
-                .then(() => {
-                
-                })
-                .catch((error) => alert(error.message));
-        })
-        .catch((error) => alert(error.message));
+            .then((userCredentials) => {
+                const user = userCredentials.user;
+                //const numericBalance = parseFloat(balance);
+                console.log(typeof balance);
+                const data = {
+                    fname: firstName,
+                    lname: lastName,
+                    bday: birthday,
+                    email: email,
+                    password: password,
+                    balance: balance,
+                    investedStocks: [],
+                    watchlist: [],
+                }
+                console.log(data);
+                setDoc(doc(db, "users", user.uid), data)
+                    .then(() => {
+                        
+                    })
+                    .catch((error) => alert(error.message));
+            })
+            .catch((error) => alert(error.message));
     }
 
     return (
-        
+
         <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
             <View style={styles.wrapper}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <SafeAreaView style={styles.wrapper} >
                         <View style={styles.logo}>
                             <Text style={styles.logoText}>b
-                                <Text style={{fontStyle: "italic"}}>w</Text>
+                                <Text style={{ fontStyle: "italic" }}>w</Text>
                                 h.</Text>
                         </View>
 
@@ -92,6 +104,16 @@ export default function Register() {
                                 onBlur={() => { setBirthdayBorder("#D8D8D8") }}
                                 style={[styles.input, { borderColor: birthdayBorder }]}
                             />
+
+                            <TextInput
+                                placeholder='Starting Account Balance in $'
+                                keyboardType = 'numeric'
+                                onChangeText={text => setBalance(Number(text))}
+                                onFocus={() => { setBalanceBorder("#00284D") }}
+                                onBlur={() => { setBalanceBorder("#D8D8D8") }}
+                                style={[styles.input, { borderColor: balanceBorder }]}
+                            />
+
 
                             <TextInput
                                 placeholder='email'
@@ -166,11 +188,11 @@ const styles = StyleSheet.create({
         padding: 0,
         backgroundColor: "#FFECBC",
 
-        
+
         alignSelf: "center",
         justifyContent: "center",
         width: 104,
-        height:35,
+        height: 35,
         borderRadius: 30,
     },
 
