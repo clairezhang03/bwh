@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal:30,
-        paddingTop:30
+        paddingTop:10
         
     },
 
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
 
     cards:{
         backgroundColor: "white",
-        top:235,
+        top:255,
         
     }
 })

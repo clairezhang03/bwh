@@ -6,6 +6,7 @@ import Login from './screens/Login'
 import Register from './screens/Register' 
 import StockInfo from './screens/StockInfo'
 import UserProfile from './screens/UserProfile'
+import LeaderBoard from './screens/Leaderboard'
 import TabNavigator from './TabNavigator'
 
 
@@ -19,6 +20,7 @@ export default function StackNavigator() {
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="StockInfo" component={StockInfo}/>
             <Stack.Screen name="UserProfile" component={UserProfile}/>
+            <Stack.Screen name = "Leaderboard" component={LeaderBoard}/>
         </Stack.Navigator>
         
     )
