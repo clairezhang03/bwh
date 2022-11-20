@@ -3,8 +3,10 @@ import React from 'react';
 import Home from './screens/Home';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Placeholder from './screens/Placeholder';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import SearchScreen from './screens/SearchScreen';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import UserProfile from './screens/UserProfile';
+import LeaderBoard from './screens/Leaderboard'
+import SearchScreen from './screens/SearchScreen'
 
 
 const Tab = createBottomTabNavigator();
@@ -37,8 +39,10 @@ export default function TabNavigator() {
       tabBarInactiveTintColor: 'gray',
     })}>
         <Tab.Screen name = "Home" component={Home} options={{headerShown: false}}/>
+        <Tab.Screen name = "Profile" component={UserProfile} options = {{headerShown: false}}/>
+        <Tab.Screen name = "Leaderboard" component={LeaderBoard} options={{headerShown: false}}/>
+        
         <Tab.Screen name = "Search" component={SearchScreen} options={{headerShown: false}}/>
-        <Tab.Screen name = "Leaderboard" component={Placeholder} options={{headerShown: false}}/>
     </Tab.Navigator>
   )
 }
