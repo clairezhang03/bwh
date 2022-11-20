@@ -16,12 +16,14 @@ export default function Register() {
     const [birthday, setBirthday] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [balance, setBalance] = useState(0);
 
     const [firstNameBorder, setFirstNameBorder] = useState("#D8D8D8");
     const [lastNameBorder, setLastNameBorder] = useState("#D8D8D8");
     const [birthdayBorder, setBirthdayBorder] = useState("#D8D8D8");
     const [emailBorder, setEmailBorder] = useState("#D8D8D8");
     const [passwordBorder, setPasswordBorder] = useState("#D8D8D8");
+    const [balanceBorder, setBalanceBorder] = useState("#D8D8D8")
 
     const updateAuth = useUpdateAuthState();
 
@@ -51,7 +53,7 @@ export default function Register() {
                     bday: birthday,
                     email: email,
                     password: password,
-                    balance: 10000,
+                    balance: balance,
                     investedStocks: [],
                     watchlist: [],
                 }
