@@ -6,7 +6,7 @@ import Card from "../components/Card"
 import { useNavigation } from '@react-navigation/native'
 import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from '../core/config';
-import { doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import AppLoading from 'expo-app-loading';
 import { useAuthState } from '../core/authstate'
 
@@ -17,24 +17,12 @@ export default function Home() {
     const [userDoc, setUserDoc] = useState(null);
     const uid = useAuthState();
 
-    // function checkAuthState(user) {
-    //     setUser(user);
-    //     if (user !== null) {
-    //         // useUpdateAuthState(user.uid);
-    //         getDoc(doc(db, "users", user.uid)).then((snapShot) => {
-    //             setUserDoc(snapShot.data())
-    //         }).catch((e) => alert(e))
-    //     }
-    //     if (initializing) setInitializing(false);
-    // }
-
     useEffect(() => {
-        // const subscriber = onAuthStateChanged(auth, checkAuthState);
-        // return subscriber; 
-        getDoc(doc(db, "users", uid)).then((snapShot) => {
-            setUserDoc(snapShot.data())
-        }).catch((e) => alert(e))
-    }, []);
+        const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
+            setUserDoc(doc.data()); 
+        }); 
+        return unsub; 
+    }, [])
 
     //prevents page from showing undefined in greeting
     if (userDoc == null) return <AppLoading />;

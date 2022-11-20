@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRoute} from '@react-navigation/native';
 import { useAuthState } from '../core/authstate';
 import { db } from '../core/config';
-import { doc, updateDoc, getDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, updateDoc, onSnapshot, arrayUnion, arrayRemove } from "firebase/firestore";
 import useSWR from "swr"
 
 export default function StockInfo() {
@@ -16,12 +16,11 @@ export default function StockInfo() {
     const [liked, setLiked] = useState(false);
 
     useEffect(() => {
-        // const subscriber = onAuthStateChanged(auth, checkAuthState);
-        // return subscriber; 
-        getDoc(doc(db, "users", uid)).then((snapShot) => {
-            setUserDoc(snapShot.data())
-        }).catch((e) => alert(e))
-    }, []);
+        const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
+            setUserDoc(doc.data()); 
+        }); 
+        return unsub; 
+    }, [])
 
     const addToWatchList = (stockObject) => {
         updateDoc(doc(db, "users", uid), {
@@ -37,38 +36,37 @@ export default function StockInfo() {
         }).catch((e) => console.log(e));
     }
 
-    const pressedLiked = () => {
-        console.log(liked);
-        console.log(stockObject);
-        if (!liked) {
-            addToWatchList(stockObject);
-            setLiked(true);
-        } else {
-            removeFromWatchList(stockObject);
-            setLiked(false);
-        }
-    }
+    // const pressedLiked = () => {
+    //     console.log(liked);
+    //     console.log(stockObject);
+    //     if (!liked) {
+    //         addToWatchList(stockObject);
+    //         setLiked(true);
+    //     } else {
+    //         removeFromWatchList(stockObject);
+    //         setLiked(false);
+    //     }
+    // }
 
     const stockObject = {
         tickerSymbol: data.symbol,
         description: data.description,
     };
 
-    //const [watchlist, setWatchlist] = useState(userDoc?.watchlist);
-
-    const isFound = userDoc?.watchlist.some(element => {
-        if (element.tickerSymbol === data.symbol) {
-          return true;
-        }
-        return false;
-      });
+    let watchlist = userDoc?.watchlist;
+    console.log(watchlist);
+    // const isFound = userDoc?.watchlist.some(element => {
+    //     if (element.tickerSymbol === data.symbol) {
+    //       return true;
+    //     }
+    //     return false;
+    //   });
     //let watchlist = userDoc?.watchlist;
     //console.log(watchlist);
-    if (isFound() === true) {
-        console.log('in watchlist already');
-        setLiked(true);
-    }
-
+    // if (isFound() === true) {
+    //     console.log('in watchlist already');
+    //     setLiked(true);
+    // }
 
     
     return (
@@ -85,7 +83,7 @@ export default function StockInfo() {
                 </View>
                 <TouchableOpacity
                     style={styles.favoriteButton}
-                    onPress={() => pressedLiked()}
+                    onPress={() => addToWatchList(stockObject)}
                 >
                     <Text style={styles.favoriteText}>Like</Text>
                 </TouchableOpacity>
