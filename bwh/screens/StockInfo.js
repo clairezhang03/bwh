@@ -13,7 +13,7 @@ export default function StockInfo() {
     const { data } = route.params;
     const fetcher = (url) => fetch(url).then((r) => r.json())
     const stockData = useSWR(`https://finnhub.io/api/v1/quote?symbol=${data.symbol}&token=cdp0asaad3i3u5gonhhgcdp0asaad3i3u5gonhi0`, fetcher, { refreshInterval: 1000 });
-
+    
     const addToWatchList = (tickerSymbol) => {
         updateDoc(doc(db, "users", uid), {
             watchlist: arrayUnion(tickerSymbol),
@@ -43,7 +43,7 @@ export default function StockInfo() {
 
             <View>
                 <Chart 
-                    stock={data}
+                    stock={data.symbol}
                 />
             </View>
             
