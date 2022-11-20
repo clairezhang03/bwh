@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRoute} from '@react-navigation/native';
 import { useAuthState } from '../core/authstate';
 import { db } from '../core/config';
-import { doc, updateDoc, getDoc, arrayUnion } from "firebase/firestore";
+import { doc, updateDoc, getDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import useSWR from "swr"
 
 export default function StockInfo() {
@@ -21,7 +21,7 @@ export default function StockInfo() {
         getDoc(doc(db, "users", uid)).then((snapShot) => {
             setUserDoc(snapShot.data())
         }).catch((e) => alert(e))
-    });
+    }, []);
 
     const addToWatchList = (stockObject) => {
         updateDoc(doc(db, "users", uid), {
@@ -38,11 +38,14 @@ export default function StockInfo() {
     }
 
     const pressedLiked = () => {
+        console.log(liked);
         console.log(stockObject);
         if (!liked) {
             addToWatchList(stockObject);
+            setLiked(true);
         } else {
             removeFromWatchList(stockObject);
+            setLiked(false);
         }
     }
 
@@ -51,10 +54,22 @@ export default function StockInfo() {
         description: data.description,
     };
 
-    if (userDoc?.watchlist.includes(stockObject)) {
+    //const [watchlist, setWatchlist] = useState(userDoc?.watchlist);
+
+    const isFound = userDoc?.watchlist.some(element => {
+        if (element.tickerSymbol === data.symbol) {
+          return true;
+        }
+        return false;
+      });
+    //let watchlist = userDoc?.watchlist;
+    //console.log(watchlist);
+    if (isFound() === true) {
         console.log('in watchlist already');
         setLiked(true);
     }
+
+
     
     return (
         <View style={styles.background}>
@@ -72,7 +87,7 @@ export default function StockInfo() {
                     style={styles.favoriteButton}
                     onPress={() => pressedLiked()}
                 >
-                    <Image style={styles.heart} source={require('./assets/heart.png')} />
+                    <Text style={styles.favoriteText}>Like</Text>
                 </TouchableOpacity>
             </SafeAreaView>
         </View>
@@ -118,6 +133,13 @@ const styles = StyleSheet.create({
         color: "#D00000",
     },
     favoriteButton: {
-        marginLeft: 50,
-    }
+        padding: 20,
+        backgroundColor: "red",
+        borderRadius: 20,
+    },
+    favoriteText: {
+        fontSize: 20,
+        color: 'white',
+        
+    },
 })

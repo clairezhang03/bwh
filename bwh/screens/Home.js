@@ -34,7 +34,7 @@ export default function Home() {
         getDoc(doc(db, "users", uid)).then((snapShot) => {
             setUserDoc(snapShot.data())
         }).catch((e) => alert(e))
-    });
+    }, []);
 
     //prevents page from showing undefined in greeting
     if (userDoc == null) return <AppLoading />;
