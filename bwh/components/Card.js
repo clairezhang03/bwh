@@ -27,7 +27,7 @@ export default function Card(props) {
         <View>
             <TouchableOpacity 
             style={[styles.button, {backgroundColor: buttonColor}]}
-            onPress={() => /*addToWatchList(props.tickerSymbol){*/ navigation.navigate("StockInfo", {data: {symbol: props.symbol, description: props.description}}) }
+            onPress={() => navigation.navigate("StockInfo", {data: {symbol: props.symbol, description: props.description}}) }
             >
                 <View style={styles.textFormat}>
                     <View>

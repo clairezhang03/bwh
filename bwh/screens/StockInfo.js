@@ -14,10 +14,12 @@ export default function StockInfo() {
     const fetcher = (url) => fetch(url).then((r) => r.json())
     const stockData = useSWR(`https://finnhub.io/api/v1/quote?symbol=${data.symbol}&token=cdp0asaad3i3u5gonhhgcdp0asaad3i3u5gonhi0`, fetcher, { refreshInterval: 1000 });
     const [liked, setLiked] = useState(false);
-
+    const [userWatchlist, setUserWatchlist] = useState(null);
+    
     useEffect(() => {
         const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
             setUserDoc(doc.data()); 
+            setUserWatchlist(doc.data().watchlist);
         }); 
         return unsub; 
     }, [])
@@ -36,37 +38,25 @@ export default function StockInfo() {
         }).catch((e) => console.log(e));
     }
 
-    // const pressedLiked = () => {
-    //     console.log(liked);
-    //     console.log(stockObject);
-    //     if (!liked) {
-    //         addToWatchList(stockObject);
-    //         setLiked(true);
-    //     } else {
-    //         removeFromWatchList(stockObject);
-    //         setLiked(false);
-    //     }
-    // }
-
     const stockObject = {
         tickerSymbol: data.symbol,
         description: data.description,
     };
-
-    let watchlist = userDoc?.watchlist;
-    console.log(watchlist);
-    // const isFound = userDoc?.watchlist.some(element => {
-    //     if (element.tickerSymbol === data.symbol) {
-    //       return true;
-    //     }
-    //     return false;
-    //   });
-    //let watchlist = userDoc?.watchlist;
-    //console.log(watchlist);
-    // if (isFound() === true) {
-    //     console.log('in watchlist already');
-    //     setLiked(true);
-    // }
+    
+    const checkLiked = (watchlist) => {
+        if(watchlist !== null) {
+            for (let i = 0; i < watchlist.length; i++) {
+                if (watchlist[i].tickerSymbol === stockObject.tickerSymbol) {
+                    //setLiked(true)
+                    removeFromWatchList(stockObject);
+                    return;
+                }
+            }
+            addToWatchList(stockObject);
+            //setLiked(false);
+        } 
+    }
+    
 
     
     return (
@@ -82,8 +72,8 @@ export default function StockInfo() {
                     </View>
                 </View>
                 <TouchableOpacity
-                    style={styles.favoriteButton}
-                    onPress={() => addToWatchList(stockObject)}
+                    style={[styles.favoriteButton, liked?styles.favoriteButtonLiked : styles.favoriteButton]}
+                    onPress={() => checkLiked(userWatchlist)}
                 >
                     <Text style={styles.favoriteText}>Like</Text>
                 </TouchableOpacity>
@@ -130,9 +120,9 @@ const styles = StyleSheet.create({
     percentDec: {
         color: "#D00000",
     },
-    favoriteButton: {
+    favoriteButtonLiked: {
         padding: 20,
-        backgroundColor: "red",
+        backgroundColor: 'red',
         borderRadius: 20,
     },
     favoriteText: {
