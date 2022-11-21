@@ -17,20 +17,7 @@ export default function Home() {
     const [userDoc, setUserDoc] = useState(null);
     const uid = useAuthState()
 
-    // function checkAuthState(user) {
-    //     setUser(user);
-    //     if (user !== null) {
-    //         // useUpdateAuthState(user.uid);
-    //         getDoc(doc(db, "users", user.uid)).then((snapShot) => {
-    //             setUserDoc(snapShot.data())
-    //         }).catch((e) => alert(e))
-    //     }
-    //     if (initializing) setInitializing(false);
-    // }
-
     useEffect(() => {
-        // const subscriber = onAuthStateChanged(auth, checkAuthState);
-        // return subscriber; 
         getDoc(doc(db, "users", uid)).then((snapShot) => {
             setUserDoc(snapShot.data())
         }).catch((e) => alert(e))
