@@ -10,7 +10,6 @@ import {
 import { fetchHistoricalData } from './data-helper';
 import { LineChart } from 'react-native-wagmi-charts';
 import { chartConfig } from '../constants/config';
-import ChartFilter from '../components/ChartFilter';
 
 export const {width: SIZE} = Dimensions.get('window');
 

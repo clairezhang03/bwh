@@ -21,51 +21,65 @@ export default function UserProfile() {
 
 
     return (
-        <View style={styles.background}>
+        <View style = {{backgroundColor:"#00284D"}}>
             <SafeAreaView>
-                <View style={styles.topFormat}>
-                    <TouchableOpacity onPress={() => {navigation.replace("HomeScreen")}}>
-                        <Text style={styles.logoText}>b
-                        <Text style={{fontStyle: "italic"}}>w</Text>
-                          h.</Text>
-                    </TouchableOpacity>
+                <ScrollView styles = {styles.background} >
+                <View style={styles.background}>
 
-                        <Text style={styles.accountValueText}>${userValue}</Text> 
+                    <View style={styles.topFormat}>
+                        <TouchableOpacity onPress={() => {navigation.replace("HomeScreen")}}>
+                            <Text style={styles.logoText}>b
+                            <Text style={{fontStyle: "italic"}}>w</Text>
+                            h.</Text>
+                        </TouchableOpacity>
+
+                            <Text style={styles.accountValueText}>${userValue}</Text> 
+                            {/* replace with user data */}
+                    </View>
+
+                    <View style={styles.percentFormat}>
                         {/* replace with user data */}
-                </View>
-                <View style={styles.percentFormat}>
-                    {/* replace with user data */}
-                    <Text style={[styles.percentText, userPercent > 0 ? styles.percentInc : styles.percentDec]}>{userPercent}%</Text>
-                </View>
+                        <Text style={[styles.percentText, userPercent > 0 ? styles.percentInc : styles.percentDec]}>{userPercent}%</Text>
+                    </View>
 
-                <View style={{flexDirection: "row",justifyContent:"center"}}>
-                    <Text style={{fontSize:30, color: "white", }}>insert graph here</Text> 
-                    {/* replace with graph here */}
-                </View>
+                    <View>
+                        <View style={styles.circleHolder}>
+                            <View style={styles.circle}>
+                                <Text style={styles.userInitial}>{username[0]}</Text>
+                                </View>
+                        </View>
+                    </View>
 
-                <View style = {styles.usernameBackground}>
-                    <Text style = {styles.usernameText}> {username}'s Investments</Text>
-                </View>
+                    <View style = {styles.usernameBackground}>
+                        <Text style = {styles.usernameText}> {username}'s Investments</Text>
+                    </View>
 
-                <View>
-                <ScrollView style={styles.cards}>
+                    <View style={styles.cards}>
                     <Card tickerSymbol="SPOT" name="Spotify" percentChange={-12} stockPrice={63} />
                     <Card tickerSymbol="AAPL" name="Apple" percentChange={100} stockPrice={100} />
                     <Card tickerSymbol="AAPL" name="Apple" percentChange={100} stockPrice={100} />
                     <Card tickerSymbol="AAPL" name="Apple" percentChange={100} stockPrice={100} />
                     <Card tickerSymbol="AAPL" name="Apple" percentChange={100} stockPrice={100} />
-                    
-                </ScrollView>
+                    <Card tickerSymbol="SPOT" name="Spotify" percentChange={-12} stockPrice={63} />
+                    <Card tickerSymbol="SPOT" name="Spotify" percentChange={-12} stockPrice={63} />
+                    <Card tickerSymbol="SPOT" name="Spotify" percentChange={-12} stockPrice={63} />
+                    <Card tickerSymbol="SPOT" name="Spotify" percentChange={-12} stockPrice={63} />
+                    <Card tickerSymbol="SPOT" name="Spotify" percentChange={-12} stockPrice={63} />
+
+                    </View>
                 </View>
+    
+                </ScrollView>
             </SafeAreaView>
-        </View>
+            </View>
     )
 }
 
 const styles = StyleSheet.create({
     background: {
         backgroundColor: "#00284D",
-        flex: 1,
+        // flex: 1,
+        height:"100%",
     },
 
     topFormat: {
@@ -127,15 +141,35 @@ const styles = StyleSheet.create({
         width: 390,
         height: 60,
         left: 0,
-        top: 362,
+        top: 220,
         backgroundColor: "#0E3A63",
         alignItems: "center",
         justifyContent: "center",
     },
 
+    userInitial:{
+        fontSize:50,
+        
+    },
+
     cards:{
         backgroundColor: "white",
-        top:255,
+        top:70,
         
-    }
+    },
+
+    circleHolder: {
+        // width: 105,
+        // height: 120,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    circle: {
+        backgroundColor: 'white',
+        borderColor: "white",
+        width: 120,
+        height: 120,
+        borderRadius: 75,
+        borderWidth: 2
+    },
 })
