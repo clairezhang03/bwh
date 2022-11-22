@@ -97,17 +97,23 @@ export default function LeaderBoard() {
                 <View style={styles.podium}>
                     <View style={styles.rectangle3}>
                         <View style={styles.circleHolder3}>
-                            <View style={styles.circle3} />
+                            <View style={styles.circle3}>
+                                <Image style={styles.medals} source={require('./assets/thirdplace.png')} />
+                            </View>
                         </View>
                     </View>
                     <View style={styles.rectangle1}>
                         <View style={styles.circleHolder1}>
-                            <View style={styles.circle1} />
+                            <View style={styles.circle1}>
+                                <Image style={styles.medals} source={require('./assets/firstplace.png')} />
+                            </View>
                         </View>
                     </View>
                     <View style={styles.rectangle2}>
                         <View style={styles.circleHolder2}>
-                            <View style={styles.circle2} />
+                            <View style={styles.circle2}>
+                                <Image style={styles.medals} source={require('./assets/secondplace.png')} />
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -116,14 +122,14 @@ export default function LeaderBoard() {
                     <Text style={styles.topInvestorsText}> Top 5 Investors</Text>
                 </View>
 
-                <View style={{ position: "absolute", top: 180 }}>
-                    <ScrollView style={styles.cards}>
+                <View style={[styles.cards,{ position: "absolute", top: 460 }]}>
+                    {/* <ScrollView style={styles.cards}> */}
                         <LeaderboardCard name={firstUser} balance={firstBalance} />
                         <LeaderboardCard name={secondUser} balance={secondBalance} />
                         <LeaderboardCard name={thirdUser} balance={thirdBalance} />
                         <LeaderboardCard name={fourthUser} balance={fourthBalance} />
                         <LeaderboardCard name={fifthUser} balance={fifthBalance} />
-                    </ScrollView>
+                    {/* </ScrollView> */}
                 </View>
             </SafeAreaView>
         </View>
@@ -293,6 +299,10 @@ const styles = StyleSheet.create({
         height: 65,
         borderRadius: 75,
         borderWidth: 2
+    },
+    medals:{
+        left:4,
+        top: 4
     },
 
 })

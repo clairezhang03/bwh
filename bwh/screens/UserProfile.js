@@ -10,7 +10,14 @@ import { useNavigation } from '@react-navigation/native'
 //     WorkSans_400Regular,
 //   } from '@expo-google-fonts\dev'
 
-export default function UserProfile() {
+const generateColor = () => {
+    const randomColor = Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, '0');
+    return `#${randomColor}`;
+  };
+
+export default function UserProfile(props) {
     const routes = useRoute();
     const navigation = useNavigation();
 
@@ -45,7 +52,7 @@ export default function UserProfile() {
                     <View>
                         <View style={styles.circleHolder}>
                             <View style={styles.circle}>
-                                <Text style={styles.userInitial}>{username[0]}</Text>
+                                <Text style={[styles.userInitial, {color: generateColor()}]}>{username[0]}</Text>
                                 </View>
                         </View>
                     </View>
@@ -148,7 +155,10 @@ const styles = StyleSheet.create({
     },
 
     userInitial:{
-        fontSize:50,
+        fontSize:100,
+        color: "black",
+        fontWeight: "700",
+        
         
     },
 
@@ -159,8 +169,7 @@ const styles = StyleSheet.create({
     },
 
     circleHolder: {
-        // width: 105,
-        // height: 120,
+        
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -170,6 +179,8 @@ const styles = StyleSheet.create({
         width: 120,
         height: 120,
         borderRadius: 75,
-        borderWidth: 2
+        borderWidth: 2,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 })
