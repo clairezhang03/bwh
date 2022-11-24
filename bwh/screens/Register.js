@@ -13,17 +13,13 @@ export default function Register() {
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [birthday, setBirthday] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [balance, setBalance] = useState(0);
 
     const [firstNameBorder, setFirstNameBorder] = useState("#D8D8D8");
     const [lastNameBorder, setLastNameBorder] = useState("#D8D8D8");
-    const [birthdayBorder, setBirthdayBorder] = useState("#D8D8D8");
     const [emailBorder, setEmailBorder] = useState("#D8D8D8");
     const [passwordBorder, setPasswordBorder] = useState("#D8D8D8");
-    const [balanceBorder, setBalanceBorder] = useState("#D8D8D8")
 
     const updateAuth = useUpdateAuthState();
 
@@ -45,15 +41,13 @@ export default function Register() {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredentials) => {
                 const user = userCredentials.user;
-                //const numericBalance = parseFloat(balance);
                 console.log(typeof balance);
                 const data = {
                     fname: firstName,
                     lname: lastName,
-                    bday: birthday,
                     email: email,
                     password: password,
-                    balance: balance,
+                    balance: 100000,
                     investedStocks: [],
                     watchlist: [],
                 }
@@ -95,23 +89,6 @@ export default function Register() {
                                 onFocus={() => { setLastNameBorder("#00284D") }}
                                 onBlur={() => { setLastNameBorder("#D8D8D8") }}
                                 style={[styles.input, { borderColor: lastNameBorder }]}
-                            />
-
-                            <TextInput
-                                placeholder='birthday (MM/DD/YYYY)'
-                                onChangeText={text => setBirthday(text)}
-                                onFocus={() => { setBirthdayBorder("#00284D") }}
-                                onBlur={() => { setBirthdayBorder("#D8D8D8") }}
-                                style={[styles.input, { borderColor: birthdayBorder }]}
-                            />
-
-                            <TextInput
-                                placeholder='Starting Account Balance in $'
-                                keyboardType = 'numeric'
-                                onChangeText={text => setBalance(Number(text))}
-                                onFocus={() => { setBalanceBorder("#00284D") }}
-                                onBlur={() => { setBalanceBorder("#D8D8D8") }}
-                                style={[styles.input, { borderColor: balanceBorder }]}
                             />
 
 
