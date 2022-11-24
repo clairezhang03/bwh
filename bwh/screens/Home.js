@@ -1,12 +1,12 @@
 
-import { SafeAreaView, StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Header from "../components/Header"
 import Card from "../components/Card"
 import { useNavigation } from '@react-navigation/native'
 import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from '../core/config';
-import { doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import AppLoading from 'expo-app-loading';
 import { useAuthState } from '../core/authstate'
 
@@ -18,10 +18,11 @@ export default function Home() {
     const uid = useAuthState()
 
     useEffect(() => {
-        getDoc(doc(db, "users", uid)).then((snapShot) => {
-            setUserDoc(snapShot.data())
-        }).catch((e) => alert(e))
-    }, []);
+        const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
+            setUserDoc(doc.data());
+        });
+        return unsub;
+    }, [])
 
     //prevents page from showing undefined in greeting
     if (userDoc == null) return <AppLoading />;
@@ -42,6 +43,12 @@ export default function Home() {
             routes: [{ name: 'Login' }]
         });
     }
+
+    let watchlist = userDoc?.watchlist;
+
+    const renderItem = ({ item }) => (
+        <Card symbol={item.tickerSymbol} description={item.description} />
+    );
 
     return (
 
@@ -68,27 +75,18 @@ export default function Home() {
                     <Image style={styles.heart} source={require('./assets/heart.png')} />
                     <Text style={styles.watchlistText}>Watchlist</Text>
                 </View> */}
-                
-                <ScrollView>
-                    <Header name={userDoc?.fname} value={100000} percent={100}/>
 
-                    <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
-                        <Image style={styles.heart} source={require('./assets/heart.png')} />
-                        <Text style={styles.watchlistText}>Watchlist</Text>
-                    </View>
-                    <Card symbol="SPOT" description="Spotify" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
+                <Header name={userDoc?.fname} value={100000} percent={100} />
 
-                </ScrollView>
-
+                <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
+                    <Image style={styles.heart} source={require('./assets/heart.png')} />
+                    <Text style={styles.watchlistText}>Watchlist</Text>
+                </View>
+                <FlatList
+                    data={watchlist}
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => index}
+                />
             </SafeAreaView>
         </View >
     )
