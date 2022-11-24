@@ -17,19 +17,15 @@ export default function OtherUserProfile() {
     return (
         <View style={styles.background}>
             <SafeAreaView>
-                <ScrollView>
-                    <Text>{data.fname}</Text>
-                    <Text>{data.lname}</Text>
-                    <Text>{data.email}</Text>
+                <Text>{data.fname}</Text>
+                <Text>{data.lname}</Text>
+                <Text>{data.email}</Text>
 
-                    <FlatList
-                        data={investedStocks}
-                        renderItem={renderItem}
-                        keyExtractor={(item, index) => index}
-                    />
-                  
-
-                </ScrollView>
+                <FlatList
+                    data={investedStocks}
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => index}
+                />
             </SafeAreaView>
         </View >
     )
