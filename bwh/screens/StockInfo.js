@@ -6,6 +6,7 @@ import { db } from '../core/config';
 import { doc, updateDoc, arrayUnion, onSnapshot, arrayRemove } from "firebase/firestore";
 import useSWR from "swr"
 import Chart from '../components/Chart'
+import BuyButton from '../components/BuyButton';
 
 export default function StockInfo() {
     const route = useRoute();
@@ -18,10 +19,10 @@ export default function StockInfo() {
 
     useEffect(() => {
         const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
-            setUserDoc(doc.data()); 
+            setUserDoc(doc.data());
             setUserWatchlist(doc.data().watchlist);
-        }); 
-        return unsub; 
+        });
+        return unsub;
     }, [])
 
     const addToWatchList = (stockObject) => {
@@ -44,7 +45,7 @@ export default function StockInfo() {
     };
 
     const checkLiked = (watchlist) => {
-        if(watchlist !== null) {
+        if (watchlist !== null) {
             for (let i = 0; i < watchlist.length; i++) {
                 if (watchlist[i].tickerSymbol === stockObject.tickerSymbol) {
                     //setLiked(true)
@@ -56,7 +57,7 @@ export default function StockInfo() {
             }
             addToWatchList(stockObject);
             //setLiked(false);
-        } 
+        }
     }
 
     if (stockData.data?.h === undefined) {
@@ -90,14 +91,14 @@ export default function StockInfo() {
                         <Image style={styles.heart} source={require('./assets/heart.png')} />
                     </TouchableOpacity>
                 </SafeAreaView>
-    
+
                 <View>
                     <Chart
                         stock={data.symbol}
                     />
                 </View>
-    
-    
+
+
                 <SafeAreaView>
                     <View style={styles.detailsFormat}>
                         <View>
@@ -112,6 +113,9 @@ export default function StockInfo() {
                             <Text style={styles.numbersText}>${stockData.data?.o.toFixed(2)}</Text>
                             <Text style={styles.numbersText}>${stockData.data?.pc.toFixed(2)}</Text>
                         </View>
+                    </View>
+                    <View>
+                        <BuyButton tickerSymbol={data.symbol} description={data.description} currentPrice={stockData.data?.c}/>
                     </View>
                 </SafeAreaView>
             </View>
@@ -128,10 +132,10 @@ const styles = StyleSheet.create({
     loading: {
         justifyContent: 'center',
         alignItems: 'center',
-        height:"100%"
+        height: "100%"
     },
-    loadingText:{
-        fontSize:40,
+    loadingText: {
+        fontSize: 40,
         color: "white",
         fontWeight: "bold",
     },
