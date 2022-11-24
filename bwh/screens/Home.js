@@ -1,5 +1,5 @@
 
-import { SafeAreaView, StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Header from "../components/Header"
 import Card from "../components/Card"
@@ -19,9 +19,9 @@ export default function Home() {
 
     useEffect(() => {
         const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
-            setUserDoc(doc.data()); 
-        }); 
-        return unsub; 
+            setUserDoc(doc.data());
+        });
+        return unsub;
     }, [])
 
     //prevents page from showing undefined in greeting
@@ -45,12 +45,17 @@ export default function Home() {
     }
 
     let watchlist = userDoc?.watchlist;
-    let cardListArray = [];
-    for (let i = 0; i < watchlist.length; i++) {
-        cardListArray.push(
-            <Card symbol={watchlist[i].tickerSymbol} description={watchlist[i].description} />
-        );
-    }
+    // let cardListArray = [];
+    // for (let i = 0; i < watchlist.length; i++) {
+    //     cardListArray.push(
+    //         <Card symbol={watchlist[i].tickerSymbol} description={watchlist[i].description} />
+    //     );
+    // }
+
+    const renderItem = ({ item }) => (
+        <Card symbol={item.tickerSymbol} description={item.description} />
+    );
+
     return (
         <View style={styles.background}>
             <View style={styles.top}>
@@ -68,32 +73,18 @@ export default function Home() {
             </View>
 
             <SafeAreaView>
+                <Header name={userDoc?.fname} value={100000} percent={100} />
 
-
-                <ScrollView>
-                    <Header name={userDoc?.fname} value={100000} percent={100} />
-
-                    <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
-                        <Image style={styles.heart} source={require('./assets/heart.png')} />
-                        <Text style={styles.watchlistText}>Watchlist</Text>
-                    </View>
-                    {cardListArray}
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-
-                    {/* <Card symbol={watchlist[0]} description="Spotify" />
-                    <Card symbol={watchlist[1]} description="Apple" /> */}
-                    {/* <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" /> */}
-
-                </ScrollView>
-
+                <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
+                    <Image style={styles.heart} source={require('./assets/heart.png')} />
+                    <Text style={styles.watchlistText}>Watchlist</Text>
+                </View>
+                <FlatList
+                    data={watchlist}
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => index}
+                />
+                {/* {cardListArray} */}
             </SafeAreaView>
         </View >
     )
