@@ -8,10 +8,9 @@ export default function BuyButton(props) {
     const uid = useAuthState();
     const [modalVisible, setModalVisible] = useState(false);
     const [shares, setShares] = useState(null);
-    const [totalAmount, setTotalAmount] = useState(0);
     const [userDoc, setUserDoc] = useState(null);
     const [balance, setBalance] = useState(null);
-    
+
     useEffect(() => {
         const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
             setUserDoc(doc.data());
@@ -21,8 +20,9 @@ export default function BuyButton(props) {
     }, [])
 
     const calculateTotal = (shares) => {
+        //console.log(shares);
         if (shares !== null && (props.currentPrice > 0)) {
-            return (shares * props.currentPrice);
+            return parseFloat(shares * props.currentPrice);
         } else {
             return 0;
         }
@@ -43,17 +43,24 @@ export default function BuyButton(props) {
 
     const checkBalance = (totalAmount) => {
         if (balance > totalAmount) {
-            setBalance(balance - totalAmount);
-            updateBalance(balance);
+            console.log(totalAmount);
+            //setBalance(parseFloat(balance) - parseFloat(totalAmount));
+            let endBalance = balance - totalAmount;
+            console.log(endBalance);
+            updateBalance(endBalance);
+        } else {
+            console.log("Not enough money in account");
         }
     };
 
-    const buyPressed = (shares, price) => {
-        setTotalAmount(shares * price);
+    const buyPressed = (shares) => {
+        console.log("this is current share amount" + shares);
+        console.log(calculateTotal(shares));
+        let totalAmount = calculateTotal(shares);
+        console.log("this is current total price" + totalAmount);
         checkBalance(totalAmount);
         setModalVisible(false);
         setShares(0);
-        setTotalAmount(0);
     };
 
     return (
@@ -63,31 +70,31 @@ export default function BuyButton(props) {
                 visible={modalVisible}
             >
                 <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
-                    <View style={{ backgroundColor: "#ffffff", margin: 40, padding: 20, borderRadius: 20, height: 300, }}>
+                    <View style={{ backgroundColor: "#ffffff", margin: 40, padding: 20, borderRadius: 20, height: 300, alignItems:"center" }}>
                         <TextInput
                             style={styles.valueInput}
                             placeholder="Number of Shares"
                             keyboardType='numeric'
                             onChangeText={(text) => {
                                 setShares(parseFloat(text))
-                                //console.log(totalAmount);
-
-                                // if (timer !== null) {
-                                //     clearTimeout(timer);
-                                // }
-                                // timer = setTimeout(function () {
-                                //     setTotalAmount(shares * props.currentPrice);
-                                //     console.log(totalAmount);
-                                // }, 30);
                             }}
                         />
-                        <Text>${shares !== null ? calculateTotal(shares).toFixed(2) : "0.00"}</Text>
-                        <TouchableOpacity onPress={() => setModalVisible(false)}>
-                            <Text>Cancel</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => buyPressed(shares, props.currentPrice)}>
-                            <Text>Buy</Text>
-                        </TouchableOpacity>
+                        <Text style={styles.totalAmount}>Price: ${shares !== null ? calculateTotal(shares).toFixed(2) : "0.00"}</Text>
+                        <View style={styles.buttonWrapper}>
+                            <TouchableOpacity
+                                onPress={() => setModalVisible(false)}
+                                style={styles.cancelButton}
+                            >
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => buyPressed(shares)}
+                                style={styles.buyButton}
+                            >
+                                <Text style={styles.buttonText}>Buy</Text>
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
                 </View>
             </Modal>
@@ -123,9 +130,39 @@ const styles = StyleSheet.create({
         height: 40,
         margin: 12,
         borderWidth: 1,
+        borderRadius: 10,
+        padding: 10
+    },
+    buyButton: {
+        backgroundColor: "#06A77D",
+        borderRadius: 10,
+        alignItems: "center",
         padding: 10,
+        flex: 2,
+        margin: 10,
+    },
+    cancelButton: {
+        backgroundColor: "red",
+        borderRadius: 10,
+        alignItems: "center",
+        padding: 10,
+        flex: 2,
+        margin: 10,
     },
     totalAmount: {
-
-    }
+        fontSize: 30,
+        fontWeight: "bold",
+        marginTop: 20,
+    },
+    buttonText: {
+        fontSize: 20,
+        color: "white",
+    },
+    buttonWrapper: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignContent: "center",
+        marginTop: 30,
+    },
 })

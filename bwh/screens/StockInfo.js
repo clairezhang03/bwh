@@ -7,6 +7,7 @@ import { doc, updateDoc, arrayUnion, onSnapshot, arrayRemove } from "firebase/fi
 import useSWR from "swr"
 import Chart from '../components/Chart'
 import BuyButton from '../components/BuyButton';
+import SellButton from '../components/SellButton';
 
 export default function StockInfo() {
     const route = useRoute();
@@ -114,8 +115,9 @@ export default function StockInfo() {
                             <Text style={styles.numbersText}>${stockData.data?.pc.toFixed(2)}</Text>
                         </View>
                     </View>
-                    <View>
-                        <BuyButton tickerSymbol={data.symbol} description={data.description} currentPrice={stockData.data?.c}/>
+                    <View style={styles.buttonWrapper}>
+                        <BuyButton style={styles.buyButton} tickerSymbol={data.symbol} description={data.description} currentPrice={stockData.data?.c}/>
+                        <SellButton style={styles.sellButton} tickerSymbol={data.symbol} description={data.description} currentPrice={stockData.data?.c}/>
                     </View>
                 </SafeAreaView>
             </View>
@@ -194,5 +196,29 @@ const styles = StyleSheet.create({
     },
     favoriteButton: {
         marginLeft: 50,
-    }
+    },
+    buttonWrapper: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignContent: "center",
+        marginTop: 20,
+        alignItems: "center"
+    },
+    buyButton: {
+        backgroundColor: "#06A77D",
+        borderRadius: 10,
+        alignItems: "center",
+        padding: 10,
+        flex: 2,
+        margin: 10,
+    },
+    sellButton: {
+        backgroundColor: "red",
+        borderRadius: 10,
+        alignItems: "center",
+        padding: 10,
+        flex: 1,
+        margin: 10,
+    },
 })
