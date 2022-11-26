@@ -15,13 +15,23 @@ export default function StockInfo() {
     const fetcher = (url) => fetch(url).then((r) => r.json())
     const stockData = useSWR(`https://finnhub.io/api/v1/quote?symbol=${data.symbol}&token=cdp0asaad3i3u5gonhhgcdp0asaad3i3u5gonhi0`, fetcher, { refreshInterval: 10000 });
     const [userWatchlist, setUserWatchlist] = useState(null);
+    const [liked, setLiked] = useState(false)
 
     useEffect(() => {
         const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
-            setUserDoc(doc.data()); 
+            setUserDoc(doc.data());
             setUserWatchlist(doc.data().watchlist);
-        }); 
-        return unsub; 
+
+            if (userWatchlist !== null) {
+                for (let i = 0; i < userWatchlist.length; i++) {
+                    if (userWatchlist[i].tickerSymbol === stockObject.tickerSymbol) {
+                        setLiked(true)
+
+                    }
+                }
+            }
+        });
+        return unsub;
     }, [])
 
     const addToWatchList = (stockObject) => {
@@ -44,20 +54,34 @@ export default function StockInfo() {
     };
 
     const checkLiked = (watchlist) => {
-        if(watchlist !== null) {
+        if (watchlist !== null) {
             for (let i = 0; i < watchlist.length; i++) {
                 if (watchlist[i].tickerSymbol === stockObject.tickerSymbol) {
-                    //setLiked(true)
-                    console.log(stockObject);
                     removeFromWatchList(stockObject);
-                    console.log('removed');
+                    setLiked(false)
                     return;
                 }
             }
             addToWatchList(stockObject);
-            //setLiked(false);
-        } 
+            setLiked(true);
+        }
     }
+
+    const Heart = () => {
+        let testliked = false;
+        if (userWatchlist !== null) {
+            for (let i = 0; i < userWatchlist.length; i++) {
+                if (userWatchlist[i].tickerSymbol === stockObject.tickerSymbol) {
+                    testliked = true;
+                }
+            }
+        }
+
+        if (testliked) {
+            return (<Image style={styles.heartliked} source={require('./assets/heartliked.png')} />);
+        }
+        return (<Image style={styles.heartunliked} source={require('./assets/heartunliked.png')} />);
+    };
 
     if (stockData.data?.h === undefined) {
         return (
@@ -87,17 +111,18 @@ export default function StockInfo() {
                         style={styles.favoriteButton}
                         onPress={() => checkLiked(userWatchlist)}
                     >
-                        <Image style={styles.heart} source={require('./assets/heart.png')} />
+                        <Heart></Heart>
+
                     </TouchableOpacity>
                 </SafeAreaView>
-    
+
                 <View>
                     <Chart
                         stock={data.symbol}
                     />
                 </View>
-    
-    
+
+
                 <SafeAreaView>
                     <View style={styles.detailsFormat}>
                         <View>
@@ -128,10 +153,10 @@ const styles = StyleSheet.create({
     loading: {
         justifyContent: 'center',
         alignItems: 'center',
-        height:"100%"
+        height: "100%"
     },
-    loadingText:{
-        fontSize:40,
+    loadingText: {
+        fontSize: 40,
         color: "white",
         fontWeight: "bold",
     },
@@ -192,3 +217,20 @@ const styles = StyleSheet.create({
         marginLeft: 50,
     }
 })
+
+/*
+ <>
+                            {
+                                liked &&
+                                <Image style={styles.heartliked} source={require('./assets/heartliked.png')} /> &&
+                                <Text color="white">heoadsf</Text>
+                            }
+
+                            {
+                                !liked &&
+                                <Image style={styles.heartunliked} source={require('./assets/heartunliked.png')} /> &&
+                                <Text >nogooddybye</Text>
+                            }
+
+                        </>
+                        */

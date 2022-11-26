@@ -15,11 +15,13 @@ export default function Home() {
     const [initializing, setInitializing] = useState(true);
     const [user, setUser] = useState();
     const [userDoc, setUserDoc] = useState(null);
+    const [balance, setBalance] = useState(0)
     const uid = useAuthState()
 
     useEffect(() => {
         const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
             setUserDoc(doc.data());
+            setBalance(doc.data().balance)
         });
         return unsub;
     }, [])
@@ -76,7 +78,7 @@ export default function Home() {
                     <Text style={styles.watchlistText}>Watchlist</Text>
                 </View> */}
 
-                <Header name={userDoc?.fname} value={100000} percent={100} />
+                <Header name={userDoc?.fname} value={balance} percent={100} />
 
                 <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
                     <Image style={styles.heart} source={require('./assets/heart.png')} />
