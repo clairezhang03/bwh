@@ -3,8 +3,8 @@ import React from 'react'
 
 export default function LeaderboardCard(props) {
 
-    let buttonColor = "#F9FFEF";
-    let textColor = "#06A77D";
+    let buttonColor = "#d0e4f7";
+    let textColor = "#286094";
 
     return (
         <View>
@@ -27,19 +27,21 @@ export default function LeaderboardCard(props) {
 const styles = StyleSheet.create({
     button: {
         borderRadius: 10,
-        padding: 20,
-        margin: 10,
-        marginLeft: 20,
-        marginRight: 20,
+        padding: 10,
+        margin: 5,
+        marginLeft: 10,
+        marginRight: 10,
+        height:51
     },
     textFormat: {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         alignContent: "center",
+
     },
     nameText: {
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: "bold",
     },
     balanceText: {
