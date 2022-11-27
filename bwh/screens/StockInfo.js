@@ -4,8 +4,9 @@ import { useRoute } from '@react-navigation/native'
 import { useAuthState } from '../core/authstate';
 import { db } from '../core/config';
 import { doc, updateDoc, arrayUnion, onSnapshot, arrayRemove } from "firebase/firestore";
-import useSWR from "swr"
-import Chart from '../components/Chart'
+import useSWR from "swr";
+import Chart from '../components/Chart';
+import BuyButton from '../components/BuyButton';
 
 export default function StockInfo() {
     const route = useRoute();
@@ -138,6 +139,9 @@ export default function StockInfo() {
                             <Text style={styles.numbersText}>${stockData.data?.pc.toFixed(2)}</Text>
                         </View>
                     </View>
+                    <View style={styles.buttonWrapper}>
+                        <BuyButton style={styles.buyButton} tickerSymbol={data.symbol} description={data.description} currentPrice={stockData.data?.c}/>
+                    </View>
                 </SafeAreaView>
             </View>
         )
@@ -215,22 +219,23 @@ const styles = StyleSheet.create({
     },
     favoriteButton: {
         marginLeft: 50,
-    }
+    },
+    buttonWrapper: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignContent: "center",
+        marginTop: 20,
+        alignItems: "center"
+    },
+    buyButton: {
+        backgroundColor: "#06A77D",
+        borderRadius: 10,
+        alignItems: "center",
+        padding: 10,
+        flex: 2,
+        margin: 10,
+        //width: "50%"
+    },
 })
 
-/*
- <>
-                            {
-                                liked &&
-                                <Image style={styles.heartliked} source={require('./assets/heartliked.png')} /> &&
-                                <Text color="white">heoadsf</Text>
-                            }
-
-                            {
-                                !liked &&
-                                <Image style={styles.heartunliked} source={require('./assets/heartunliked.png')} /> &&
-                                <Text >nogooddybye</Text>
-                            }
-
-                        </>
-                        */
