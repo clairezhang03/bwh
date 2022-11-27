@@ -49,7 +49,7 @@ export default function BuyButton(props) {
             console.log(endBalance);
             updateBalance(endBalance);
         } else {
-            console.log("Not enough money in account");
+            alert("Not enough money in account");
         }
     };
 

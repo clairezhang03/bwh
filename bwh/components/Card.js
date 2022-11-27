@@ -20,13 +20,6 @@ export default function Card(props) {
         textColor = "#D00000";
     }
 
-    const addToWatchList = (tickerSymbol) => {
-        updateDoc(doc(db, "users", uid), {
-            watchlist: arrayUnion(tickerSymbol),
-        }).then(() => {
-        }).catch((e) => console.log(e));
-    }
-
     return (
         <View>
             <TouchableOpacity 
