@@ -1,5 +1,6 @@
 import { SafeAreaView, StyleSheet, FlatList, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native'
 import { useRoute } from '@react-navigation/native'
+import ProfileCard from "../components/ProfileCard"
 
 export default function OtherUserProfile() {
     const route = useRoute();
@@ -7,27 +8,15 @@ export default function OtherUserProfile() {
 
     const investedStocks = data.investedStocks;
 
-    const Card = (props) => {
-        return (
-            <View style={styles.card}>
-                <Text style={{ color: '#00284D', fontSize: 40, paddingLeft: 20 }}>{props.ticker}</Text>
-                <View>
-                    <Text style={{ color: '#00284D', fontSize: 20 }}>Shares: {props.shares}</Text>
-                    <Text style={{ color: '#00284D', marginTop: 5, fontSize: 20 }}>${props.price}</Text>
-                </View>
-            </View>
-        );
-    };
-
     const renderItem = ({ item }) => (
         <TouchableOpacity>
-            <Card ticker={item.tickerSymbol} price={item.price} shares={item.shares} />
+            <ProfileCard ticker={item.tickerSymbol} price={item.price} shares={item.shares} />
         </TouchableOpacity>
     );
 
     return (
         <View style={styles.background}>
-            <SafeAreaView>
+            <SafeAreaView style={{flex: 1}}>
                 <View style={styles.headingContainer}>
                     <View>
                         <Text style={styles.headingText}>{data.fname + " " + data.lname}</Text>
@@ -53,6 +42,7 @@ export default function OtherUserProfile() {
 const styles = StyleSheet.create({
     background: {
         backgroundColor: "#00284D",
+        flex: 1
     },
     headingText: {
         fontSize: 30,
@@ -68,6 +58,7 @@ const styles = StyleSheet.create({
         //flexDirection: "row",
         justifyContent: "space-between",
         alignContent: "center",
+        flex: 1
     },
     emailText: {
         padding: 5,
@@ -86,18 +77,7 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: "bold",
     },
-    card: {
-        borderRadius: 10,
-        padding: 20,
-        margin: 10,
-        marginLeft: 20,
-        marginRight: 20,
-        backgroundColor: "#FDF1D2",
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignContent: "center",
-    },
+  
     flatlistWrapper: {
         backgroundColor: "white",
         borderRadius: 10,

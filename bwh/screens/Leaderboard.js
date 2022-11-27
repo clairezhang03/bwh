@@ -105,7 +105,7 @@ export default function LeaderBoard() {
 
     return (
         <View style={styles.background}>
-            <SafeAreaView>
+            <SafeAreaView style={{flex: 1}}>
                 <View style={styles.topFormat}>
                     <Text style={styles.logoText}>b
                         <Text style={{ fontStyle: "italic" }}>w</Text>
@@ -151,8 +151,9 @@ export default function LeaderBoard() {
                 <View style={styles.investorBox}>
                     <Text style={styles.topInvestorsText}> Top 5 Investors</Text>
                 </View>
-                <View style={[styles.cards, { position: "absolute", top: 460 }]}>
-                    <FlatList
+
+                <View style={[styles.cards, { position: "absolute", top: 460}]}>
+                    <FlatList 
                         data={[firstInfo, secondInfo, thirdInfo, fourthInfo, fifthInfo]}
                         renderItem={renderItem}
                         keyExtractor={(item, index) => index}
@@ -217,7 +218,8 @@ const styles = StyleSheet.create({
         top: 283,
         position: "absolute",
         width: 390,
-        marginBottom: 1000
+        marginBottom: 1000,
+        flex: 1
     },
 
     podium: {

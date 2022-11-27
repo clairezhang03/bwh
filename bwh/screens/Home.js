@@ -21,7 +21,7 @@ export default function Home() {
         const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
             setUserDoc(doc.data());
             setBalance(doc.data().balance)
-            setPercent(((doc.data().balance - 10000)/10000) * 100);
+            setPercent(((doc.data().balance - 10000) / 10000) * 100);
         });
         return unsub;
     }, [])
@@ -67,29 +67,18 @@ export default function Home() {
                         <Text style={{ fontStyle: "italic" }}>w</Text>
                         h.</Text>
                 </View>
-
-
             </View>
 
-            <SafeAreaView>
-
-                {/* <View style={{flexDirection: "row", justifyContent: "center", marginBottom: 10}}>
-                    <Image style={styles.heart} source={require('./assets/heart.png')} />
-                    <Text style={styles.watchlistText}>Watchlist</Text>
-                </View> */}
-
-                <Header name={userDoc?.fname} value={balance} percent={percent} />
-
-                <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
-                    <Image style={styles.heart} source={require('./assets/heart.png')} />
-                    <Text style={styles.watchlistText}>Watchlist</Text>
-                </View>
-                <FlatList
-                    data={watchlist}
-                    renderItem={renderItem}
-                    keyExtractor={(item, index) => index}
-                />
-            </SafeAreaView>
+            <Header name={userDoc?.fname} value={balance} percent={100} />
+            <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
+                <Image style={styles.heart} source={require('./assets/heart.png')} />
+                <Text style={styles.watchlistText}>Watchlist</Text>
+            </View>
+            <FlatList
+                data={watchlist}
+                renderItem={renderItem}
+                keyExtractor={(item, index) => index}
+            />
         </View >
     )
 }
@@ -98,13 +87,14 @@ const styles = StyleSheet.create({
 
     background: {
         backgroundColor: "#00284D",
+        flex: 1
     },
 
     heart: {
         height: 30,
         width: 35,
         alignSelf: 'center',
-        marginRight: 10
+        marginRight: 10,
     },
 
     logoutIcon: {

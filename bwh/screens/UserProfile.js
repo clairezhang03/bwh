@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useAuthState } from '../core/authstate'
 import { db } from '../core/config';
 import { doc, onSnapshot } from "firebase/firestore";
+import ProfileCard from "../components/ProfileCard"
 
 // import {
 //     useFonts,
@@ -39,28 +40,15 @@ export default function UserProfile(props) {
         return unsub;
     }, [])
 
-    const Card = (props) => {
-        return (
-            <View style={styles.card}>
-                <Text style={{ color: '#00284D', fontSize: 40, paddingLeft: 20 }}>{props.ticker}</Text>
-                <View>
-                    <Text style={{ color: '#00284D', fontSize: 20 }}>Shares: {props.shares}</Text>
-                    <Text style={{ color: '#00284D', marginTop: 5, fontSize: 20 }}>${props.price}</Text>
-                </View>
-            </View>
-        );
-    };
-
-
     const renderItem = ({ item }) => (
         <TouchableOpacity>
-            <Card ticker={item.tickerSymbol} price={item.price} shares={item.shares} />
+            <ProfileCard ticker={item.tickerSymbol} price={item.price} shares={item.shares} />
         </TouchableOpacity>
     );
 
     return (
-        <View style={{ backgroundColor: "#00284D" }}>
-            <SafeAreaView>
+        <View style={{ backgroundColor: "#00284D", flex: 1}}>
+            <SafeAreaView style={{flex: 1}}>
                 <View style={styles.background}>
 
                     <View style={styles.topFormat}>
@@ -189,7 +177,6 @@ const styles = StyleSheet.create({
     cards: {
         backgroundColor: "white",
         top: 70,
-
     },
 
     circleHolder: {
@@ -207,16 +194,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    card: {
-        borderRadius: 10,
-        padding: 20,
-        margin: 10,
-        marginLeft: 20,
-        marginRight: 20,
-        backgroundColor: "#FDF1D2",
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignContent: "center",
-    }
 })
