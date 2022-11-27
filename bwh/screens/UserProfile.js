@@ -1,62 +1,94 @@
-import { SafeAreaView, StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import { SafeAreaView, StyleSheet, Text, FlatList, View, ScrollView, TouchableOpacity, Image } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import Header from "../components/Header"
-import Card from "../components/Card"
 import { useRoute } from '@react-navigation/native'
 import { useNavigation } from '@react-navigation/native'
+import { useAuthState } from '../core/authstate'
+import { db } from '../core/config';
+import { doc, onSnapshot } from "firebase/firestore";
+import ProfileCard from "../components/ProfileCard"
 
 // import {
 //     useFonts,
 //     WorkSans_400Regular,
 //   } from '@expo-google-fonts\dev'
 
-export default function UserProfile() {
+const generateColor = () => {
+    const randomColor = Math.floor(Math.random() * 16777215)
+        .toString(16)
+        .padStart(6, '0');
+    return `#${randomColor}`;
+};
+
+export default function UserProfile(props) {
     const routes = useRoute();
     const navigation = useNavigation();
 
+    const [investedStocks, setInvestedStocks] = useState([]);
+    const [balance, setBalance] = useState(0)
+    const [percent, setPercent] = useState(0)
+    const [name, setName] = useState("bwh")
+    const uid = useAuthState()
 
-    var userPercent = 12.5;
-    var userValue = 100000;
-    var username = "BWH";
+    useEffect(() => {
+        const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
+            setInvestedStocks(doc.data().investedStocks);
+            setBalance(doc.data().balance);
+            setPercent(((doc.data().balance - 10000) / 10000) * 100);
+            setName(doc.data().fname + " " + doc.data().lname);
+        });
+        return unsub;
+    }, [])
 
+    const renderItem = ({ item }) => (
+        <TouchableOpacity>
+            <ProfileCard ticker={item.tickerSymbol} price={item.price} shares={item.shares} />
+        </TouchableOpacity>
+    );
 
     return (
-        <View style={styles.background}>
-            <SafeAreaView>
-                <View style={styles.topFormat}>
-                    <TouchableOpacity onPress={() => {navigation.replace("HomeScreen")}}>
-                        <Text style={styles.logoText}>b
-                        <Text style={{fontStyle: "italic"}}>w</Text>
-                          h.</Text>
-                    </TouchableOpacity>
+        <View style={{ backgroundColor: "#00284D", flex: 1}}>
+            <SafeAreaView style={{flex: 1}}>
+                <View style={styles.background}>
 
-                        <Text style={styles.accountValueText}>${userValue}</Text> 
-                        {/* replace with user data */}
-                </View>
-                <View style={styles.percentFormat}>
-                    {/* replace with user data */}
-                    <Text style={[styles.percentText, userPercent > 0 ? styles.percentInc : styles.percentDec]}>{userPercent}%</Text>
+                    <View style={styles.topFormat}>
+                        <TouchableOpacity onPress={() => { navigation.replace("HomeScreen") }}>
+                            <Text style={styles.logoText}>b
+                                <Text style={{ fontStyle: "italic" }}>w</Text>
+                                h.</Text>
+                        </TouchableOpacity>
+
+                        <Text style={styles.accountValueText}>${balance}</Text>
+                    </View>
+
+                    <View style={styles.percentFormat}>
+                        <Text style={[styles.percentText, percent > 0 ? styles.percentInc : styles.percentDec]}>{percent}%</Text>
+                    </View>
+
+                    <View>
+                        <View style={styles.circleHolder}>
+                            <View style={styles.circle}>
+                                <Text style={[styles.userInitial, { color: generateColor() }]}>{name[0]}</Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    <View style={styles.usernameBackground}>
+                        <Text style={styles.usernameText}> {name}'s Investments</Text>
+                    </View>
+
+                    <View style={styles.cards}>
+                        <FlatList
+                            //style={styles.flatlistWrapper}
+                            data={investedStocks}
+                            renderItem={renderItem}
+                            keyExtractor={(item, index) => index}
+                        />
+
+                    </View>
                 </View>
 
-                <View style={{flexDirection: "row",justifyContent:"center"}}>
-                    <Text style={{fontSize:30, color: "white", }}>insert graph here</Text> 
-                    {/* replace with graph here */}
-                </View>
 
-                <View style = {styles.usernameBackground}>
-                    <Text style = {styles.usernameText}> {username}'s Investments</Text>
-                </View>
-
-                <View>
-                <ScrollView style={styles.cards}>
-                    <Card tickerSymbol="SPOT" name="Spotify" percentChange={-12} stockPrice={63} />
-                    <Card tickerSymbol="AAPL" name="Apple" percentChange={100} stockPrice={100} />
-                    <Card tickerSymbol="AAPL" name="Apple" percentChange={100} stockPrice={100} />
-                    <Card tickerSymbol="AAPL" name="Apple" percentChange={100} stockPrice={100} />
-                    <Card tickerSymbol="AAPL" name="Apple" percentChange={100} stockPrice={100} />
-                    
-                </ScrollView>
-                </View>
             </SafeAreaView>
         </View>
     )
@@ -65,7 +97,8 @@ export default function UserProfile() {
 const styles = StyleSheet.create({
     background: {
         backgroundColor: "#00284D",
-        flex: 1,
+        // flex: 1,
+        height: "100%",
     },
 
     topFormat: {
@@ -73,9 +106,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal:30,
-        paddingTop:10
-        
+        paddingHorizontal: 30,
+        paddingTop: 10
+
     },
 
     logoText: {
@@ -93,10 +126,10 @@ const styles = StyleSheet.create({
         color: "#FFFFFF",
     },
 
-    percentFormat:{
+    percentFormat: {
         flexDirection: "row",
         justifyContent: "flex-end",
-        paddingHorizontal:30,
+        paddingHorizontal: 30,
     },
 
     percentText: {
@@ -107,15 +140,15 @@ const styles = StyleSheet.create({
         borderColor: "white"
     },
 
-    percentInc:{
+    percentInc: {
         color: "#06A77D",
     },
 
-    percentDec:{
-        color: "#D00000", 
+    percentDec: {
+        color: "#D00000",
     },
 
-    usernameText:{
+    usernameText: {
         fontSize: 30,
         weight: 400,
         color: "#FFF0C9",
@@ -127,15 +160,38 @@ const styles = StyleSheet.create({
         width: 390,
         height: 60,
         left: 0,
-        top: 362,
+        top: 220,
         backgroundColor: "#0E3A63",
         alignItems: "center",
         justifyContent: "center",
     },
 
-    cards:{
+    userInitial: {
+        fontSize: 100,
+        color: "black",
+        fontWeight: "700",
+
+
+    },
+
+    cards: {
         backgroundColor: "white",
-        top:255,
-        
-    }
+        top: 70,
+    },
+
+    circleHolder: {
+
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    circle: {
+        backgroundColor: 'white',
+        borderColor: "white",
+        width: 120,
+        height: 120,
+        borderRadius: 75,
+        borderWidth: 2,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 })

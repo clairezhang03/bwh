@@ -1,27 +1,30 @@
 
-import { SafeAreaView, StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Header from "../components/Header"
 import Card from "../components/Card"
 import { useNavigation } from '@react-navigation/native'
 import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from '../core/config';
-import { doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import AppLoading from 'expo-app-loading';
 import { useAuthState } from '../core/authstate'
 
 export default function Home() {
     const navigation = useNavigation();
-    const [initializing, setInitializing] = useState(true);
-    const [user, setUser] = useState();
     const [userDoc, setUserDoc] = useState(null);
+    const [balance, setBalance] = useState(0)
+    const [percent, setPercent] = useState(0)
     const uid = useAuthState()
 
     useEffect(() => {
-        getDoc(doc(db, "users", uid)).then((snapShot) => {
-            setUserDoc(snapShot.data())
-        }).catch((e) => alert(e))
-    }, []);
+        const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
+            setUserDoc(doc.data());
+            setBalance(doc.data().balance)
+            setPercent(((doc.data().balance - 10000) / 10000) * 100);
+        });
+        return unsub;
+    }, [])
 
     //prevents page from showing undefined in greeting
     if (userDoc == null) return <AppLoading />;
@@ -43,6 +46,12 @@ export default function Home() {
         });
     }
 
+    let watchlist = userDoc?.watchlist;
+
+    const renderItem = ({ item }) => (
+        <Card symbol={item.tickerSymbol} description={item.description} />
+    );
+
     return (
 
         <View style={styles.background}>
@@ -58,43 +67,18 @@ export default function Home() {
                         <Text style={{ fontStyle: "italic" }}>w</Text>
                         h.</Text>
                 </View>
-
-
             </View>
 
-            <SafeAreaView>
-
-                <TouchableOpacity onPress={() => {navigation.replace("null")}}> 
-                {/*replace with "user profile", but fix issues with tab navigation */}
-                    <Header name="BWH" value={100000} percent={100} />
-                </TouchableOpacity>
-
-                <View style={{flexDirection: "row", justifyContent: "center", marginBottom: 10}}>
-                    <Image style={styles.heart} source={require('./assets/heart.png')} />
-                    <Text style={styles.watchlistText}>Watchlist</Text>
-                </View>
-                
-                <ScrollView>
-                    <Header name={userDoc?.fname} value={100000} percent={100} />
-
-                    <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
-                        <Image style={styles.heart} source={require('./assets/heart.png')} />
-                        <Text style={styles.watchlistText}>Watchlist</Text>
-                    </View>
-                    <Card symbol="SPOT" description="Spotify" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-                    <Card symbol="AAPL" description="Apple" />
-
-                </ScrollView>
-
-            </SafeAreaView>
+            <Header name={userDoc?.fname} value={balance} percent={100} />
+            <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
+                <Image style={styles.heart} source={require('./assets/heart.png')} />
+                <Text style={styles.watchlistText}>Watchlist</Text>
+            </View>
+            <FlatList
+                data={watchlist}
+                renderItem={renderItem}
+                keyExtractor={(item, index) => index}
+            />
         </View >
     )
 }
@@ -103,13 +87,14 @@ const styles = StyleSheet.create({
 
     background: {
         backgroundColor: "#00284D",
+        flex: 1
     },
 
     heart: {
         height: 30,
         width: 35,
         alignSelf: 'center',
-        marginRight: 10
+        marginRight: 10,
     },
 
     logoutIcon: {
@@ -119,7 +104,7 @@ const styles = StyleSheet.create({
     },
 
     logoText: {
-        fontSize: 30,
+        fontSize: 50,
         fontStyle: "normal",
         fontWeight: "bold",
         color: "#FDF1D2",

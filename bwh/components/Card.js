@@ -10,7 +10,7 @@ export default function Card(props) {
     const navigation = useNavigation();
     const uid = useAuthState();
     const fetcher = (url) => fetch(url).then((r) => r.json())
-    const stockData = useSWR(`https://finnhub.io/api/v1/quote?symbol=${props.symbol}&token=cdp0asaad3i3u5gonhhgcdp0asaad3i3u5gonhi0`, fetcher, { refreshInterval: 1000 });
+    const stockData = useSWR(`https://finnhub.io/api/v1/quote?symbol=${props.symbol}&token=cdp0asaad3i3u5gonhhgcdp0asaad3i3u5gonhi0`, fetcher, { refreshInterval: 10000 });
 
 
     let buttonColor = "#F9FFEF";
@@ -31,7 +31,7 @@ export default function Card(props) {
         <View>
             <TouchableOpacity 
             style={[styles.button, {backgroundColor: buttonColor}]}
-            onPress={() => /*addToWatchList(props.tickerSymbol){*/ navigation.navigate("StockInfo", {data: {symbol: props.symbol}}) }
+            onPress={() => navigation.navigate("StockInfo", {data: {symbol: props.symbol,  description: props.description}}) }
             >
                 <View style={styles.textFormat}>
                     <View>

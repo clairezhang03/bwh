@@ -6,6 +6,7 @@ import Login from './screens/Login'
 import Register from './screens/Register' 
 import StockInfo from './screens/StockInfo'
 import LeaderBoard from './screens/Leaderboard'
+import OtherUserProfile from './screens/OtherUserProfile'
 import TabNavigator from './TabNavigator'
 
 const Stack = createNativeStackNavigator();
@@ -18,6 +19,7 @@ export default function StackNavigator() {
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="StockInfo" component={StockInfo}/>
             <Stack.Screen name = "Leaderboard" component={LeaderBoard}/>
+            <Stack.Screen name = "OtherUserProfile" component={OtherUserProfile}/>
         </Stack.Navigator>
         
     )

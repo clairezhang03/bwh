@@ -1,25 +1,88 @@
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, ScrollView, View, Image } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRoute } from '@react-navigation/native'
 import { useAuthState } from '../core/authstate';
 import { db } from '../core/config';
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
-import useSWR from "swr"
-import Chart from '../components/Chart'
+import { doc, updateDoc, arrayUnion, onSnapshot, arrayRemove } from "firebase/firestore";
+import useSWR from "swr";
+import Chart from '../components/Chart';
+import BuyButton from '../components/BuyButton';
 
 export default function StockInfo() {
     const route = useRoute();
     const uid = useAuthState();
     const { data } = route.params;
+    const [userDoc, setUserDoc] = useState(null);
     const fetcher = (url) => fetch(url).then((r) => r.json())
     const stockData = useSWR(`https://finnhub.io/api/v1/quote?symbol=${data.symbol}&token=cdp0asaad3i3u5gonhhgcdp0asaad3i3u5gonhi0`, fetcher, { refreshInterval: 10000 });
+    const [userWatchlist, setUserWatchlist] = useState(null);
+    const [liked, setLiked] = useState(false)
 
-    const addToWatchList = (tickerSymbol) => {
+    useEffect(() => {
+        const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
+            setUserDoc(doc.data());
+            setUserWatchlist(doc.data().watchlist);
+
+            if (userWatchlist !== null) {
+                for (let i = 0; i < userWatchlist.length; i++) {
+                    if (userWatchlist[i].tickerSymbol === stockObject.tickerSymbol) {
+                        setLiked(true)
+
+                    }
+                }
+            }
+        });
+        return unsub;
+    }, [])
+
+    const addToWatchList = (stockObject) => {
         updateDoc(doc(db, "users", uid), {
-            watchlist: arrayUnion(tickerSymbol),
+            watchlist: arrayUnion(stockObject),
         }).then(() => {
         }).catch((e) => console.log(e));
     }
+
+    const removeFromWatchList = (stockObject) => {
+        updateDoc(doc(db, "users", uid), {
+            watchlist: arrayRemove(stockObject),
+        }).then(() => {
+        }).catch((e) => console.log(e));
+    }
+
+    const stockObject = {
+        tickerSymbol: data.symbol,
+        description: data.description,
+    };
+
+    const checkLiked = (watchlist) => {
+        if (watchlist !== null) {
+            for (let i = 0; i < watchlist.length; i++) {
+                if (watchlist[i].tickerSymbol === stockObject.tickerSymbol) {
+                    removeFromWatchList(stockObject);
+                    setLiked(false)
+                    return;
+                }
+            }
+            addToWatchList(stockObject);
+            setLiked(true);
+        }
+    }
+
+    const Heart = () => {
+        let testliked = false;
+        if (userWatchlist !== null) {
+            for (let i = 0; i < userWatchlist.length; i++) {
+                if (userWatchlist[i].tickerSymbol === stockObject.tickerSymbol) {
+                    testliked = true;
+                }
+            }
+        }
+
+        if (testliked) {
+            return (<Image style={styles.heartliked} source={require('./assets/heartliked.png')} />);
+        }
+        return (<Image style={styles.heartunliked} source={require('./assets/heartunliked.png')} />);
+    };
 
     if (stockData.data?.h === undefined) {
         return (
@@ -47,19 +110,20 @@ export default function StockInfo() {
                     </View>
                     <TouchableOpacity
                         style={styles.favoriteButton}
-                        onPress={() => addToWatchList(data.symbol)}
+                        onPress={() => checkLiked(userWatchlist)}
                     >
-                        <Image style={styles.heart} source={require('./assets/heart.png')} />
+                        <Heart></Heart>
+
                     </TouchableOpacity>
                 </SafeAreaView>
-    
+
                 <View>
                     <Chart
                         stock={data.symbol}
                     />
                 </View>
-    
-    
+
+
                 <SafeAreaView>
                     <View style={styles.detailsFormat}>
                         <View>
@@ -74,6 +138,9 @@ export default function StockInfo() {
                             <Text style={styles.numbersText}>${stockData.data?.o.toFixed(2)}</Text>
                             <Text style={styles.numbersText}>${stockData.data?.pc.toFixed(2)}</Text>
                         </View>
+                    </View>
+                    <View style={styles.buttonWrapper}>
+                        <BuyButton style={styles.buyButton} tickerSymbol={data.symbol} description={data.description} currentPrice={stockData.data?.c}/>
                     </View>
                 </SafeAreaView>
             </View>
@@ -90,10 +157,10 @@ const styles = StyleSheet.create({
     loading: {
         justifyContent: 'center',
         alignItems: 'center',
-        height:"100%"
+        height: "100%"
     },
-    loadingText:{
-        fontSize:40,
+    loadingText: {
+        fontSize: 40,
         color: "white",
         fontWeight: "bold",
     },
@@ -152,5 +219,23 @@ const styles = StyleSheet.create({
     },
     favoriteButton: {
         marginLeft: 50,
-    }
+    },
+    buttonWrapper: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignContent: "center",
+        marginTop: 20,
+        alignItems: "center"
+    },
+    buyButton: {
+        backgroundColor: "#06A77D",
+        borderRadius: 10,
+        alignItems: "center",
+        padding: 10,
+        flex: 2,
+        margin: 10,
+        //width: "50%"
+    },
 })
+
