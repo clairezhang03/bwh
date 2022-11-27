@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity, Image } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Card from "../components/Card"
 import { useRoute } from '@react-navigation/native'
@@ -14,52 +14,78 @@ import LeaderboardCard from "../components/LeaderboardCard"
 
 export default function LeaderBoard() {
     let sortedUsers = [];
-    const [firstUser, setFirstUser] = useState("First Investor");
-    const [secondUser, setSecondUser] = useState("Second Investor");
-    const [thirdUser, setThirdUser] = useState("Third Investor");
-    const [fourthUser, setFourthUser] = useState("Fourth Investor");
-    const [fifthUser, setFifthUser] = useState("Fifth Investor");
+    const [firstInfo, setFirstInfo] = useState({
+        fname: "First",
+        lname: "Investor",
+        balance: 10000,
+        email: "firstInvestor@gmail.com",
+        investedStocks: []
+    })
 
-    const [firstBalance, setFirstBalance] = useState(0);
-    const [secondBalance, setSecondBalance] = useState(0);
-    const [thirdBalance, setThirdBalance] = useState(0);
-    const [fourthBalance, setFourthBalance] = useState(0);
-    const [fifthBalance, setFifthBalance] = useState(0);
+    const [secondInfo, setSecondInfo] = useState({
+        fname: "Second",
+        lname: "Investor",
+        balance: 10000,
+        email: "secondInvestor@gmail.com",
+        investedStocks: []
+    })
+
+    const [thirdInfo, setThirdInfo] = useState({
+        fname: "Third",
+        lname: "Investor",
+        balance: 10000,
+        email: "thirdInvestor@gmail.com",
+        investedStocks: []
+    })
+
+    const [fourthInfo, setFourthInfo] = useState({
+        fname: "Fourth",
+        lname: "Investor",
+        balance: 10000,
+        email: "fourthInvestor@gmail.com",
+        investedStocks: []
+    })
+
+    const [fifthInfo, setFifthInfo] = useState({
+        fname: "Fifth",
+        lname: "Investor",
+        balance: 10000,
+        email: "fifthInvestor@gmail.com",
+        investedStocks: []
+    })
+
 
     useEffect(() => {
         getDocs(collection(db, "users")).then(querySnapshot => {
             querySnapshot.forEach((doc) => {
                 const nameBalance = {
-                    name: doc.data().fname,
-                    balance: doc.data().balance
+                    fname: doc.data().fname,
+                    lname: doc.data().lname,
+                    balance: doc.data().balance,
+                    investedStocks: doc.data().investedStocks,
                 }
                 sortedUsers.push(nameBalance);
             });
             sortedUsers.sort(function (a, b) { return b.balance - a.balance });
-                
-            if (sortedUsers.length > 0){
-                setFirstUser(sortedUsers[0].name);
-                setFirstBalance(sortedUsers[0].balance);
+
+            if (sortedUsers.length > 0) {
+                setFirstInfo(sortedUsers[0]);
             }
 
-            if (sortedUsers.length > 1){
-                setSecondUser(sortedUsers[1].name);
-                setSecondBalance(sortedUsers[1].balance);
+            if (sortedUsers.length > 1) {
+                setSecondInfo(sortedUsers[1]);
             }
 
-            if (sortedUsers.length > 2){
-                setThirdUser(sortedUsers[2].name);
-                setThirdBalance(sortedUsers[2].balance);
+            if (sortedUsers.length > 2) {
+                setThirdInfo(sortedUsers[2]);
             }
 
-            if (sortedUsers.length > 3){
-                setFourthUser(sortedUsers[3].name);
-                setFourthBalance(sortedUsers[3].balance);
+            if (sortedUsers.length > 3) {
+                setFourthInfo(sortedUsers[3]);
             }
 
-            if (sortedUsers.length > 4){
-                setFifthUser(sortedUsers[4].name);
-                setFifthBalance(sortedUsers[4].balance);
+            if (sortedUsers.length > 4) {
+                setFifthInfo(sortedUsers[4]);
             }
 
         }).catch((e) => alert(e))
@@ -69,9 +95,13 @@ export default function LeaderBoard() {
     const routes = useRoute();
     const navigation = useNavigation();
 
-    var first = firstUser;
-    var second = secondUser;
-    var third = thirdUser;
+    const renderItem = ({ item }) => (
+        <TouchableOpacity
+            style={[styles.button, { backgroundColor: "#F9FFEF" }]}
+            onPress={() => navigation.navigate("OtherUserProfile", { data: item })}>
+            <LeaderboardCard name={item.fname + " " + item.lname} balance={item.balance} />
+        </TouchableOpacity>
+    );
 
     return (
         <View style={styles.background}>
@@ -89,9 +119,9 @@ export default function LeaderBoard() {
                     </Text>
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-                    <Text style={styles.podiumUsers3}>{third}</Text>
-                    <Text style={styles.podiumUsers1}>{first}</Text>
-                    <Text style={styles.podiumUsers2}>{second}</Text>
+                    <Text style={styles.podiumUsers3}>{thirdInfo.fname}</Text>
+                    <Text style={styles.podiumUsers1}>{firstInfo.fname}</Text>
+                    <Text style={styles.podiumUsers2}>{secondInfo.fname}</Text>
                 </View>
 
                 <View style={styles.podium}>
@@ -121,15 +151,12 @@ export default function LeaderBoard() {
                 <View style={styles.investorBox}>
                     <Text style={styles.topInvestorsText}> Top 5 Investors</Text>
                 </View>
-
-                <View style={[styles.cards,{ position: "absolute", top: 460 }]}>
-                    {/* <ScrollView style={styles.cards}> */}
-                        <LeaderboardCard name={firstUser} balance={firstBalance} />
-                        <LeaderboardCard name={secondUser} balance={secondBalance} />
-                        <LeaderboardCard name={thirdUser} balance={thirdBalance} />
-                        <LeaderboardCard name={fourthUser} balance={fourthBalance} />
-                        <LeaderboardCard name={fifthUser} balance={fifthBalance} />
-                    {/* </ScrollView> */}
+                <View style={[styles.cards, { position: "absolute", top: 460 }]}>
+                    <FlatList
+                        data={[firstInfo, secondInfo, thirdInfo, fourthInfo, fifthInfo]}
+                        renderItem={renderItem}
+                        keyExtractor={(item, index) => index}
+                    />
                 </View>
             </SafeAreaView>
         </View>
@@ -300,9 +327,17 @@ const styles = StyleSheet.create({
         borderRadius: 75,
         borderWidth: 2
     },
-    medals:{
-        left:4,
+    medals: {
+        left: 4,
         top: 4
+    },
+
+    button: {
+        borderRadius: 10,
+        padding: 20,
+        margin: 10,
+        marginLeft: 20,
+        marginRight: 20,
     },
 
 })
