@@ -6,19 +6,15 @@ export default function LeaderboardCard(props) {
 
     return (
         <View>
-            <TouchableOpacity 
-            style={[styles.button, {backgroundColor: buttonColor}]}
-            >
-                <View style={styles.textFormat}>
-                    <View>
-                        <Text style={[styles.nameText, {color: textColor}]}>{props.name}</Text>
-                    </View>
-                    <View>
-                        <Text style={[styles.balanceText]}>${props.balance.toFixed(2)}</Text>
-                    </View>
+            <View style={styles.textFormat}>
+                <View>
+                    <Text style={[styles.nameText, { color: textColor }]}>{props.name}</Text>
                 </View>
-            </TouchableOpacity>
-        </View> 
+                <View>
+                    <Text style={[styles.balanceText]}>${props.balance.toFixed(2)}</Text>
+                </View>
+            </View>
+        </View>
     )
 }
 
