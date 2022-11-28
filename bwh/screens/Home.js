@@ -20,7 +20,7 @@ export default function Home() {
         const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
             setUserDoc(doc.data());
             setBalance(doc.data().balance)
-            setPercent(((doc.data().balance - 10000) / 10000) * 100);
+            setPercent(((doc.data().balance - 100000) / 100000) * 100);
         });
         return unsub;
     }, [])
