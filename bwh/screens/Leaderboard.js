@@ -62,6 +62,7 @@ export default function LeaderBoard() {
                     fname: doc.data().fname,
                     lname: doc.data().lname,
                     balance: doc.data().balance,
+                    percent: ((doc.data().balance - 100000) / 100000) * 100,
                     investedStocks: doc.data().investedStocks,
                 }
                 sortedUsers.push(nameBalance);
