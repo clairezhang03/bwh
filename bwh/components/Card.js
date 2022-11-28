@@ -35,8 +35,8 @@ export default function Card(props) {
             >
                 <View style={styles.textFormat}>
                     <View>
-                        <Text style={[styles.tickerText, {color: textColor}]}>{props.symbol}</Text>
-                        <Text style={[styles.nameText, {color: textColor}]}>{props.description}</Text>
+                        <Text numberOfLines={1} style={[styles.tickerText, {color: textColor}]}>{props.symbol}</Text>
+                        <Text numberOfLines={1} style={[styles.nameText, {color: textColor}]}>{props.description}</Text>
                     </View>
                     <View>
                         <Text style={styles.priceText}>${stockData.data?.c}</Text>
@@ -65,11 +65,12 @@ const styles = StyleSheet.create({
     tickerText: {
         fontSize: 30,
         fontWeight: "bold",
+        flex: 1
     },
     nameText: {
         fontSize: 15,
         fontWeight: "bold",
-
+        flex: 1
     },
     priceText: {
         fontSize: 25,
