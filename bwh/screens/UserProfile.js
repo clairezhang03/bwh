@@ -58,11 +58,11 @@ export default function UserProfile(props) {
                                 h.</Text>
                         </TouchableOpacity>
 
-                        <Text style={styles.accountValueText}>${balance}</Text>
+                        <Text style={styles.accountValueText}>${balance.toFixed(2)}</Text>
                     </View>
 
                     <View style={styles.percentFormat}>
-                        <Text style={[styles.percentText, percent > 0 ? styles.percentInc : styles.percentDec]}>{percent}%</Text>
+                        <Text style={[styles.percentText, percent > 0 ? styles.percentInc : styles.percentDec]}>{percent.toFixed(2)}%</Text>
                     </View>
 
                     <View>
