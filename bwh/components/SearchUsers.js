@@ -28,6 +28,7 @@ export default function SearchUsers() {
           lname: doc.data().lname,
           email: doc.data().email,
           investedStocks: doc.data().investedStocks,
+          percent: ((doc.data().balance - 100000) / 100000) * 100,
           balance: doc.data().balance
         }
         all_users.push(miniProfile)

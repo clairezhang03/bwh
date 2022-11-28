@@ -40,7 +40,7 @@ export default function OtherUserProfile() {
                     <View style={styles.percentFormat}>
                      <Text style={styles.emailText}>{data.email}</Text>
 
-                        {/* <Text style={[styles.percentText, data.percent > 0 ? styles.percentInc : styles.percentDec]}>{data.percent}%</Text> */}
+                        <Text style={[styles.percentText, data.percent > 0 ? styles.percentInc : styles.percentDec]}>{data.percent.toFixed(2)}%</Text>
                     </View>
                     
 
