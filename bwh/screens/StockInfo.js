@@ -17,11 +17,15 @@ export default function StockInfo() {
     const fetcher = (url) => fetch(url).then((r) => r.json())
     const stockData = useSWR(`https://finnhub.io/api/v1/quote?symbol=${data.symbol}&token=cdp0asaad3i3u5gonhhgcdp0asaad3i3u5gonhi0`, fetcher, { refreshInterval: 10000 });
     const [userWatchlist, setUserWatchlist] = useState(null);
+    const [userInvestedStocks, setUserInvestedStocks] = useState(null);
+    const [totalShares, setTotalShares] = useState(0);
 
     useEffect(() => {
         const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
             setUserDoc(doc.data());
             setUserWatchlist(doc.data().watchlist);
+            setUserInvestedStocks(doc.data().investedStocks);
+
         });
         return unsub;
     }, [])
@@ -38,7 +42,7 @@ export default function StockInfo() {
             watchlist: arrayRemove(stockObject),
         }).then(() => {
         }).catch((e) => console.log(e));
-    }
+    };
 
     const stockObject = {
         tickerSymbol: data.symbol,
@@ -59,7 +63,8 @@ export default function StockInfo() {
             addToWatchList(stockObject);
             //setLiked(false);
         }
-    }
+    };
+
 
     if (stockData.data?.h === undefined) {
         return (
@@ -116,8 +121,8 @@ export default function StockInfo() {
                         </View>
                     </View>
                     <View style={styles.buttonWrapper}>
-                        <BuyButton style={styles.buyButton} tickerSymbol={data.symbol} description={data.description} currentPrice={stockData.data?.c}/>
-                        <SellButton style={styles.sellButton} tickerSymbol={data.symbol} description={data.description} currentPrice={stockData.data?.c}/>
+                        <BuyButton style={styles.buyButton} tickerSymbol={data.symbol} description={data.description} currentPrice={stockData.data?.c} />
+                        <SellButton style={styles.sellButton} tickerSymbol={data.symbol} description={data.description} currentPrice={stockData.data?.c} />
                     </View>
                 </SafeAreaView>
             </View>
@@ -221,6 +226,6 @@ const styles = StyleSheet.create({
         padding: 10,
         flex: 1,
         margin: 10,
-       // width: "50%",
+        // width: "50%",
     },
 })

@@ -11,6 +11,8 @@ export default function SellButton(props) {
     const uid = useAuthState();
     const [balance, setBalance] = useState(null);
     const [userInvestedStocks, setUserInvestedStocks] = useState(null);
+    const [sharesInvested, setSharesInvested] = useState(0);
+    const [totalSellPrice, setSellPrice] = useState(0);
 
     useEffect(() => {
         const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
@@ -21,12 +23,51 @@ export default function SellButton(props) {
         return unsub;
     }, [])
 
-    const addToWatchList = (stockObject) => {
+    const removeInvestedStocks = () => {
+        for (let i = 0; i < userInvestedStocks.length; i++) {
+            if (userInvestedStocks[i].tickerSymbol === props.tickerSymbol) {
+                updateDoc(doc(db, "users", uid), {
+                    investedStocks: arrayRemove(userInvestedStocks[i]),
+                }).then(() => {
+                }).catch((e) => console.log(e));
+            }
+        }
+    };
+
+    const updateBalance = () => {
+        let newBalance = totalSellPrice + balance;
         updateDoc(doc(db, "users", uid), {
-            watchlist: arrayUnion(stockObject),
+            balance: parseFloat(newBalance),
         }).then(() => {
         }).catch((e) => console.log(e));
-    }
+    };
+
+    const sellPressed = () => {
+        setModalVisible(true);
+        console.log(userInvestedStocks);
+        if (userInvestedStocks !== null) {
+            console.log("not null");
+            let totalShares = 0;
+            for (let i = 0; i < userInvestedStocks.length; i++) {
+                if (userInvestedStocks[i].tickerSymbol === props.tickerSymbol) {
+                    //console.log(i + "shares: " + userInvestedStocks[i].shares);
+                    totalShares = totalShares + userInvestedStocks[i].shares;
+                }
+            }
+            setSharesInvested(totalShares);
+            let price = totalShares * props.currentPrice;
+            setSellPrice(price);
+            console.log(sharesInvested);
+        }
+    };
+
+    const secondSellPressed = () => {
+        removeInvestedStocks();
+        updateBalance();
+        setModalVisible(false);
+    };
+
+    console.log(userInvestedStocks);
 
     return (
         <View>
@@ -36,18 +77,19 @@ export default function SellButton(props) {
             >
                 <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
                     <View style={{ backgroundColor: "#ffffff", margin: 40, padding: 20, borderRadius: 20, height: 300, alignItems: "center" }}>
+                        <Text>Shares Owned: {sharesInvested}</Text>
+                        <Text>Total selling price: ${totalSellPrice}</Text>
                         <TouchableOpacity
-                            onPress={() => setModalVisible(false)}
-
+                            onPress={() => secondSellPressed()}
                         >
-                            <Text></Text>
+                            <Text>Sell</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => setModalVisible(true)}
+                onPress={() => sellPressed()}
             >
                 <Text style={styles.textStyle}>Sell</Text>
             </TouchableOpacity>
