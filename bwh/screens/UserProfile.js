@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
 
     usernameBackground: {
         position: "absolute",
-        width: 390,
+        width: "100%",
         height: 60,
         left: 0,
         top: 220,
