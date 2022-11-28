@@ -102,9 +102,9 @@ export default function StockInfo() {
                     <View style={styles.topFormat}>
                         <Text style={styles.tickerText}>{data.symbol}</Text>
                         <View>
-                            <Text style={styles.priceText}>${stockData.data?.c}</Text>
+                            <Text style={styles.priceText}>${stockData.data?.c.toFixed(2)}</Text>
                             <Text style={[styles.percentText, stockData.data?.dp >= 0 ? styles.percentInc : styles.percentDec]}>
-                                {stockData.data?.dp}%
+                                {stockData.data?.dp.toFixed(2)}%
                             </Text>
                         </View>
                     </View>

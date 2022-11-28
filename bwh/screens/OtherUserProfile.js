@@ -34,11 +34,13 @@ export default function OtherUserProfile() {
                                 h.</Text>
                         </TouchableOpacity>
 
-                         <Text style={styles.balanceText}>${data.balance}</Text>
+                         <Text style={styles.balanceText}>${data.balance.toFixed(2)}</Text>
                     </View>
 
                     <View style={styles.percentFormat}>
-                        <Text style={[styles.percentText, data.percent > 0 ? styles.percentInc : styles.percentDec]}>{data.percent}%</Text>
+                     <Text style={styles.emailText}>{data.email}</Text>
+
+                        {/* <Text style={[styles.percentText, data.percent > 0 ? styles.percentInc : styles.percentDec]}>{data.percent}%</Text> */}
                     </View>
                     
 
@@ -56,7 +58,7 @@ export default function OtherUserProfile() {
                         <Text style={styles.usernameText}> {data.fname + " " + data.lname}'s Investments</Text>
                     </View>
 
-                    <View style={[styles.cards,{flex:1}]}>
+                    <View style={[{flex:1,marginTop:75}]}>
                         <FlatList
                             //style={styles.flatlistWrapper}
                             data={investedStocks}
