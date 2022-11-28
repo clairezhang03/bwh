@@ -176,12 +176,12 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         paddingHorizontal: 30,
-        paddingTop: 10
+        paddingTop: 10,
 
     },
 
     logoText: {
-        fontSize: 45,
+        fontSize: 40,
         fontStyle: "normal",
         fontWeight: "bold",
         color: "#FDF1D2",
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
 
     investorBox: {
         position: "absolute",
-        width: 390,
+        width: "100%",
         height: 60,
         top: 402,
         backgroundColor: "#0E3A63",
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         top: 283,
         position: "absolute",
-        width: 390,
+        width: "100%",
         marginBottom: 1000,
         flex: 1
     },

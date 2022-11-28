@@ -16,7 +16,7 @@ export default function LeaderboardCard(props) {
                         <Text style={[styles.nameText, {color: textColor}]}>{props.name}</Text>
                     </View>
                     <View>
-                        <Text style={[styles.balanceText]}>${props.balance}</Text>
+                        <Text style={[styles.balanceText]}>${props.balance.toFixed(2)}</Text>
                     </View>
                 </View>
             </TouchableOpacity>

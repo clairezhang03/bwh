@@ -29,12 +29,11 @@ export default function ProfileCard(props) {
                 <View style={styles.textFormat}>
                     <View>
                         <Text style={[styles.tickerText, {color: textColor}]}>{props.ticker}</Text>
-                        <Text style={[styles.nameText, {color: textColor}]}>{props.description}</Text> 
-                        {/*add description???*/}
+                        {/* <Text style={[styles.nameText, {color: textColor}]}>{props.description}</Text>  */}
                     </View>
                     <View>
-                        <Text style={{ color: '#00284D', fontSize: 20 }}>Shares: {props.shares}</Text>
-                        <Text style={{ color: '#00284D', marginTop: 5, fontSize:20 }}>Total: ${props.price}</Text>
+                        <Text style={{ color: '#00284D', fontSize: 20, fontWeight:"400" }}>Shares: {props.shares}</Text>
+                        <Text style={{ color: '#00284D', marginTop: 5, fontSize:20,fontWeight:"600" }}>Bought Price: ${props.price.toFixed(2)}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
