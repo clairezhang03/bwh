@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     },
     percentText: {
         fontSize: 20,
-        textAlign: "center"
+        textAlign: "center",
+        fontWeight:"600"
     }
 })

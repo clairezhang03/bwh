@@ -49,7 +49,7 @@ export default function UserProfile(props) {
     return (
         <View style={{ backgroundColor: "#00284D", flex: 1}}>
             <SafeAreaView style={{flex: 1}}>
-                <View style={styles.background}>
+                <View style={[styles.background, {flex:1}]}>
 
                     <View style={styles.topFormat}>
                         <TouchableOpacity onPress={() => { navigation.replace("HomeScreen") }}>
@@ -73,11 +73,11 @@ export default function UserProfile(props) {
                         </View>
                     </View>
 
-                    <View style={styles.usernameBackground}>
+                    <View style={[styles.usernameBackground, {flex:1}]}>
                         <Text style={styles.usernameText}> {name}'s Investments</Text>
                     </View>
 
-                    <View style={styles.cards}>
+                    <View style={{flex:1, marginTop:75}}>
                         <FlatList
                             //style={styles.flatlistWrapper}
                             data={investedStocks}
