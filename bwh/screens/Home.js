@@ -1,4 +1,3 @@
-
 import { SafeAreaView, StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Header from "../components/Header"
@@ -21,7 +20,7 @@ export default function Home() {
         const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
             setUserDoc(doc.data());
             setBalance(doc.data().balance)
-            setPercent(((doc.data().balance - 10000) / 10000) * 100);
+            setPercent(((doc.data().balance - 100000) / 100000) * 100);
         });
         return unsub;
     }, [])
@@ -69,7 +68,7 @@ export default function Home() {
                 </View>
             </View>
 
-            <Header name={userDoc?.fname} value={balance} percent={100} />
+            <Header name={userDoc?.fname} value={balance} percent={percent} />
             <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
                 <Image style={styles.heart} source={require('./assets/heart.png')} />
                 <Text style={styles.watchlistText}>Watchlist</Text>

@@ -97,7 +97,7 @@ export default function LeaderBoard() {
 
     const renderItem = ({ item }) => (
         <TouchableOpacity
-            // style={[styles.button, { backgroundColor: "#F9FFEF" }]}
+        style={[styles.button, {backgroundColor: "#d0e4f7"}]}
             onPress={() => navigation.navigate("OtherUserProfile", { data: item })}>
             <LeaderboardCard name={item.fname + " " + item.lname} balance={item.balance} />
         </TouchableOpacity>
@@ -334,13 +334,14 @@ const styles = StyleSheet.create({
         top: 4
     },
 
-    // button: {
-    //     borderRadius: 10,
-    //     padding: 20,
-    //     margin: 10,
-    //     marginLeft: 20,
-    //     marginRight: 20,
-    // },
+        button: {
+        borderRadius: 10,
+        padding: 10,
+        margin: 5,
+        marginLeft: 10,
+        marginRight: 10,
+        height:51
+    },
 
 })
 

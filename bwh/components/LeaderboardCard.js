@@ -2,8 +2,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
 export default function LeaderboardCard(props) {
-
-    let buttonColor = "#d0e4f7";
     let textColor = "#286094";
 
     return (
@@ -25,15 +23,6 @@ export default function LeaderboardCard(props) {
 }
 
 const styles = StyleSheet.create({
-    button: {
-        borderRadius: 10,
-        padding: 10,
-        margin: 5,
-        marginLeft: 10,
-        marginRight: 10,
-        height:51
-    },
-
     textFormat: {
         display: "flex",
         flexDirection: "row",
