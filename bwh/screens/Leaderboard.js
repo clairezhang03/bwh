@@ -154,6 +154,7 @@ export default function LeaderBoard() {
 
                 <View style={[styles.cards, { position: "absolute", top: 460}]}>
                     <FlatList 
+                        scrollEnabled={false}
                         data={[firstInfo, secondInfo, thirdInfo, fourthInfo, fifthInfo]}
                         renderItem={renderItem}
                         keyExtractor={(item, index) => index}
