@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         height:51
     },
+
     textFormat: {
         display: "flex",
         flexDirection: "row",
