@@ -24,8 +24,8 @@ export default function Header(props) {
             <View style={styles.greetingWrapper}>
                 <Text style={styles.greetingText}>{greeting}, {"\n"+props.name}</Text>
                 <View> 
-                    <Text style={styles.valueText}>${props.value}</Text>
-                    <Text style={[styles.percentText, {color: percentColor}]}>{(props.percent>0? "+":"") + props.percent}%</Text>
+                    <Text style={styles.valueText}>${props.value.toFixed(2)}</Text>
+                    <Text style={[styles.percentText, {color: percentColor}]}>{(props.percent>0? "+":"") + props.percent.toFixed(2)}%</Text>
                 </View>
             </View>
         </View>

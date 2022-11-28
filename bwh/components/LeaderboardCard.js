@@ -5,15 +5,20 @@ export default function LeaderboardCard(props) {
     let textColor = "#286094";
 
     return (
-        <View style={styles.textFormat}>
-            <View>
-                <Text style={[styles.nameText, { color: textColor }]}>{props.name}</Text>
-            </View>
-            <View>
-                <Text style={[styles.balanceText]}>${props.balance}</Text>
-            </View>
-        </View>
-
+        <View>
+            <TouchableOpacity 
+            style={[styles.button, {backgroundColor: buttonColor}]}
+            >
+                <View style={styles.textFormat}>
+                    <View>
+                        <Text style={[styles.nameText, {color: textColor}]}>{props.name}</Text>
+                    </View>
+                    <View>
+                        <Text style={[styles.balanceText]}>${props.balance.toFixed(2)}</Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
+        </View> 
     )
 }
 

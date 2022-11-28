@@ -176,12 +176,12 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         paddingHorizontal: 30,
-        paddingTop: 10
+        paddingTop: 10,
 
     },
 
     logoText: {
-        fontSize: 45,
+        fontSize: 40,
         fontStyle: "normal",
         fontWeight: "bold",
         color: "#FDF1D2",

@@ -25,7 +25,7 @@ export default function OtherUserProfile() {
 
         <View style={{ backgroundColor: "#00284D", flex: 1}}>
             <SafeAreaView style={{flex: 1}}>
-                <View style={[styles.background,{flex:1}]}>
+                <View style={[styles.background]}>
 
                     <View style={styles.topFormat}>
                         <TouchableOpacity onPress={() => { navigation.replace("HomeScreen") }}>
