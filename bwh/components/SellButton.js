@@ -81,6 +81,7 @@ export default function SellButton(props) {
                         <Text>Total selling price: ${totalSellPrice}</Text>
                         <TouchableOpacity
                             onPress={() => secondSellPressed()}
+                            //style={styles.sellButton}
                         >
                             <Text>Sell</Text>
                         </TouchableOpacity>
@@ -115,5 +116,13 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
         marginRight: 20,
+    },
+    sellButton: {
+        backgroundColor: "red",
+        borderRadius: 10,
+        alignItems: "center",
+        padding: 10,
+        flex: 2,
+        margin: 10,
     },
 })
