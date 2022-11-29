@@ -3,14 +3,20 @@ A mobile application that is a stock investment simulator and social platform. V
 
 
 ## Install
-bwh is run through npm and Expo. 
-To run the app locally, you will first need to install both:
+
+First, clone the bwh repository
+```
+git clone https://github.com/clairezhang03/bwh
+```
+
+bwh is run on Expo. To run the app locally, install the Expo command line interface:
 
 ```
-npm install
-npx expo install
+npm install -g expo-cli
 ```
-The app uses `react-native-wagmi-charts` to generate the stock charts. Install the package and the neccessary react native libraries:
+and run `npm install` in the bwh directory.
+
+The app uses `react-native-wagmi-charts` to generate the stock charts. Install the package and the necessary react native libraries:
 ```
 npm install react-native-wagmi-charts
 ```
@@ -29,28 +35,23 @@ module.exports = function(api) {
 };
 ```
 
-Also, install a few other dependencies:
+Also, install a few other libraries:
 ```
-npm i expo-app-loading
-npm i @react-navigation/bottom-tabs
+npm install expo-app-loading
+npm install @react-navigation/bottom-tabs
 ```
 ## Firebase
-The app uses Firebase to store user data. After cloning this directory, create a `keys.js` file in the `core` folder containing the following:
+The app uses Firebase to store user data. Generate the necessary keys from the Firebase website. Create a `keys.js` file in the `core` folder containing the following:
 ```jsx
 const firebaseConfig = {
-   apiKey: "AIzaSyC6XJlx_CSjGIboYs74VZ1eORm3a-bPVpE",
-   authDomain: "lbwh-4f21c.firebaseapp.com",
-   projectId: "lbwh-4f21c",
-   storageBucket: "lbwh-4f21c.appspot.com",
-   messagingSenderId: "50578554285",
-   appId: "1:50578554285:web:c8f9b101d429f6ffa57524"
+   [insert config keys here]
  };
  
  export default firebaseConfig;
 ```
 
 ## Running app on Windows
-Download Expo Go on your IOS/Android device and run the following command in your terminal inside the bwh directory:
+Download Expo Go on your IOS/Android device and run the following command in your terminal inside the (inner) bwh directory:
 
 ```
 expo start --tunnel
@@ -58,8 +59,10 @@ expo start --tunnel
 This will generate a QR code for you to scan which will open bwh in the Expo Go app.
 
 ## Running app on MacOS
-Alternatively, on an MacOS device, the simulated devices can be ran on your device directly using options after start. 
+Alternatively, on an MacOS device, the simulated devices can be ran on your device using XCode using options after start. Run the following command in your terminal inside the (inner) bwh directory.
 
 ```
 expo start
 ```
+
+If "command not found: expo" error occurs, run `npx expo start` instead.
