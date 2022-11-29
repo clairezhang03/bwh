@@ -77,14 +77,22 @@ export default function SellButton(props) {
             >
                 <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
                     <View style={{ backgroundColor: "#ffffff", margin: 40, padding: 20, borderRadius: 20, height: 300, alignItems: "center" }}>
-                        <Text>Shares Owned: {sharesInvested}</Text>
-                        <Text>Total selling price: ${totalSellPrice}</Text>
-                        <TouchableOpacity
-                            onPress={() => secondSellPressed()}
-                            //style={styles.sellButton}
-                        >
-                            <Text>Sell</Text>
-                        </TouchableOpacity>
+                        <Text style={styles.text}>Shares Owned: {sharesInvested}</Text>
+                        <Text style={styles.text}>Total selling price: ${totalSellPrice}</Text>
+                        <View style={styles.buttonWrapper}>
+                            <TouchableOpacity
+                                onPress={() => secondSellPressed()}
+                                style={styles.sellButton}
+                            >
+                                <Text style={styles.buttonText}>Sell</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => setModalVisible(false)}
+                                style={styles.cancelButton}
+                            >
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </Modal>
@@ -125,4 +133,37 @@ const styles = StyleSheet.create({
         flex: 2,
         margin: 10,
     },
+    text: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginTop: 20,
+    },
+    cancelButton: {
+        backgroundColor: "red",
+        borderRadius: 10,
+        alignItems: "center",
+        padding: 10,
+        flex: 2,
+        margin: 10,
+    },
+    sellButton: {
+        backgroundColor: "#06A77D",
+        borderRadius: 10,
+        alignItems: "center",
+        padding: 10,
+        flex: 2,
+        margin: 10,
+    },
+    buttonWrapper: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignContent: "center",
+        marginTop: 30,
+    },
+    buttonText: {
+        color: "white",
+        fontSize: 20,
+    },
+
 })
