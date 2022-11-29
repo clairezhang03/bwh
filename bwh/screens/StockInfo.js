@@ -7,6 +7,7 @@ import { doc, updateDoc, arrayUnion, onSnapshot, arrayRemove } from "firebase/fi
 import useSWR from "swr";
 import Chart from '../components/Chart';
 import BuyButton from '../components/BuyButton';
+import SellButton from '../components/SellButton';
 
 export default function StockInfo() {
     const route = useRoute();
@@ -16,12 +17,15 @@ export default function StockInfo() {
     const fetcher = (url) => fetch(url).then((r) => r.json())
     const stockData = useSWR(`https://finnhub.io/api/v1/quote?symbol=${data.symbol}&token=cdp0asaad3i3u5gonhhgcdp0asaad3i3u5gonhi0`, fetcher, { refreshInterval: 10000 });
     const [userWatchlist, setUserWatchlist] = useState(null);
-    const [liked, setLiked] = useState(false)
+    const [liked, setLiked] = useState(false);
+    const [userInvestedStocks, setUserInvestedStocks] = useState(null);
+    const [totalShares, setTotalShares] = useState(0);
 
     useEffect(() => {
         const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
             setUserDoc(doc.data());
             setUserWatchlist(doc.data().watchlist);
+            setUserInvestedStocks(doc.data().investedStocks);
 
             if (userWatchlist !== null) {
                 for (let i = 0; i < userWatchlist.length; i++) {
@@ -140,7 +144,8 @@ export default function StockInfo() {
                         </View>
                     </View>
                     <View style={styles.buttonWrapper}>
-                        <BuyButton style={styles.buyButton} tickerSymbol={data.symbol} description={data.description} currentPrice={stockData.data?.c}/>
+                        <BuyButton style={styles.buyButton} tickerSymbol={data.symbol} description={data.description} currentPrice={stockData.data?.c} />
+                        <SellButton style={styles.sellButton} tickerSymbol={data.symbol} description={data.description} currentPrice={stockData.data?.c} />
                     </View>
                 </SafeAreaView>
             </View>
