@@ -38,7 +38,7 @@ export default function OtherUserProfile() {
                     </View>
 
                     <View style={styles.percentFormat}>
-                     <Text style={styles.emailText}>{data.email}</Text>
+                     {/* <Text style={styles.emailText}>{data.email}</Text> */}
 
                         <Text style={[styles.percentText, data.percent > 0 ? styles.percentInc : styles.percentDec]}>{data.percent.toFixed(2)}%</Text>
                     </View>
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
 
     usernameBackground: {
         position: "absolute",
-        width: 390,
+        width: "100%",
         height: 60,
         left: 0,
         top: 220,
