@@ -28,8 +28,8 @@ export default function ProfileCard(props) {
             >
                 <View style={styles.textFormat}>
                     <View>
-                        <Text style={[styles.tickerText, {color: textColor}]}>{props.ticker}</Text>
-                        {/* <Text style={[styles.nameText, {color: textColor}]}>{props.description}</Text>  */}
+                        <Text numberOfLines={1} style={[styles.tickerText, {color: textColor}]}>{props.ticker}</Text>
+                        <Text numberOfLines={1} style={[styles.nameText, {color: textColor}]}>{props.description}</Text> 
                     </View>
                     <View>
                         <Text style={{ color: '#00284D', fontSize: 20, fontWeight:"400" }}>Shares: {props.shares}</Text>
@@ -81,11 +81,13 @@ const styles = StyleSheet.create({
     tickerText: {
         fontSize: 30,
         fontWeight: "bold",
-        color:"black"
+        color:"black",
+        flex:1
     },
     nameText: {
         fontSize: 15,
         fontWeight: "bold",
+        flex:1
 
     },
     priceText: {
