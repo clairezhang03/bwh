@@ -39,6 +39,7 @@ Also, install a few other libraries:
 ```
 npm install expo-app-loading
 npm install @react-navigation/bottom-tabs
+npm install react-native-tab-view
 ```
 ## Firebase
 The app uses Firebase to store user data. Generate the necessary keys from the Firebase website. Create a `keys.js` file in the `core` folder containing the following:
