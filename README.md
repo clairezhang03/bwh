@@ -14,7 +14,7 @@ bwh is run on Expo. To run the app locally, install the Expo command line interf
 ```
 npm install -g expo-cli
 ```
-and run `npm install` in the bwh directory.
+and run `npm install` in the (inner) bwh directory.
 
 The app uses `react-native-wagmi-charts` to generate the stock charts. Install the package and the necessary react native libraries:
 ```
