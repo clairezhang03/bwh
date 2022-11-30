@@ -33,6 +33,7 @@ export default function BuyButton(props) {
             tickerSymbol: props.tickerSymbol,
             price: props.currentPrice,
             shares: shares,
+            description: props.description,
         };
         updateDoc(doc(db, "users", uid), {
             balance: parseFloat(newBalance),

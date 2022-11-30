@@ -42,7 +42,7 @@ export default function UserProfile(props) {
 
     const renderItem = ({ item }) => (
         <TouchableOpacity>
-            <ProfileCard ticker={item.tickerSymbol} price={item.price} shares={item.shares} />
+            <ProfileCard ticker={item.tickerSymbol} price={item.price} shares={item.shares} description={item.description}/>
         </TouchableOpacity>
     );
 
