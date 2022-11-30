@@ -88,7 +88,7 @@ export default function StockInfo() {
         return (<Image style={styles.heartunliked} source={require('./assets/heartunliked.png')} />);
     };
 
-    if (stockData.data?.h === undefined) {
+    if (stockData.data?.h === undefined || stockData.data?.dp === undefined || stockData.data === undefined) {
         return (
             <View style={styles.background}>
                 <SafeAreaView>
