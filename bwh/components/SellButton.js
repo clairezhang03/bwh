@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         padding: 20,
         margin: 10,
         marginLeft: 20,
-        marginRight: 20,
+        marginRight: 60,
         backgroundColor: "red",
         alignItems: "center",
 
@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: "white",
         fontWeight: "bold",
-        marginRight: 20,
+        alignText: "center",
+        marginHorizontal: 20,
     },
     sellButton: {
         backgroundColor: "red",

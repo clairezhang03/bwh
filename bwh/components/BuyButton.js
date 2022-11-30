@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 20,
         margin: 10,
-        marginLeft: 20,
+        marginLeft: 60,
         marginRight: 20,
         backgroundColor: "#06A77D",
         alignItems: "center",
@@ -124,7 +124,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: "white",
         fontWeight: "bold",
-        marginRight: 20,
+        alignText: "center",
+        marginHorizontal: 20,
     },
     valueInput: {
         height: 40,

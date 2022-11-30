@@ -239,7 +239,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 10,
         flex: 2,
-        margin: 10,
         //width: "50%"
     },
 })
